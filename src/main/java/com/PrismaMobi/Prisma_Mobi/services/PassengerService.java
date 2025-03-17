@@ -1,11 +1,13 @@
 package com.PrismaMobi.Prisma_Mobi.services;
 
-import com.PrismaMobi.Prisma_Mobi.models.Passenger;
-import com.PrismaMobi.Prisma_Mobi.models.PassengerDTO;
+import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
+import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerDTO;
 import com.PrismaMobi.Prisma_Mobi.respositories.PassengerRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PassengerService {
 
     @Autowired

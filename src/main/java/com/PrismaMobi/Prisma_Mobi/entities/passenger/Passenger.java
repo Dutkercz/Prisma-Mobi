@@ -1,6 +1,6 @@
-package com.PrismaMobi.Prisma_Mobi.models;
+package com.PrismaMobi.Prisma_Mobi.entities.passenger;
 
-import com.PrismaMobi.Prisma_Mobi.models.enums.Gender;
+import com.PrismaMobi.Prisma_Mobi.entities.enums.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @EqualsAndHashCode(of = "id")
 @Table
-public class Driver {
+public class Passenger {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +23,4 @@ public class Driver {
     private Boolean active;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private Vehicle vehicle;
 }
