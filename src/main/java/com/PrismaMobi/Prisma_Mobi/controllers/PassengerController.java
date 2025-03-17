@@ -5,10 +5,7 @@ import com.PrismaMobi.Prisma_Mobi.services.PassengerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -25,6 +22,11 @@ public class PassengerController {
         var passenger = passengerService.save(passengerDTO);
         URI uri = builder.path("/api/passenger/register/{id}").buildAndExpand(passenger.getId()).toUri();
         return ResponseEntity.created(uri).body(passengerDTO.listing());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<PassengerDTO> findById(@PathVariable Long id){
+        PassengerDTO passenger = passengerService.findById(id);
+        return ResponseEntity.ok().body(passenger.listing());
     }
 
 }
