@@ -22,10 +22,11 @@ public class PassengerController {
     @PostMapping("/register")
     public ResponseEntity<PassengerDTO> passengerRegister(@RequestBody @Valid PassengerDTO passengerDTO,
                                             UriComponentsBuilder builder){
-        var passenger = passengerService.save(passengerDTO);
+        Passenger passenger = passengerService.save(passengerDTO);
         URI uri = builder.path("/api/passenger/register/{id}").buildAndExpand(passenger.getId()).toUri();
         return ResponseEntity.created(uri).body(passengerDTO.listing());
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<PassengerDTO> findById(@PathVariable Long id){
         PassengerDTO passenger = passengerService.findById(id);

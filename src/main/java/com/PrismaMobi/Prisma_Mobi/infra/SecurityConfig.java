@@ -1,5 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.infra;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.AbstractRequestMatcherRegistry;
@@ -21,7 +22,8 @@ public class SecurityConfig {
         return security.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(x ->
                         x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(x ->{
+                .authorizeHttpRequests(x -> {
+                    x.requestMatchers("/api/users/*").permitAll();
                     x.anyRequest().authenticated();
                 })
                 .build();

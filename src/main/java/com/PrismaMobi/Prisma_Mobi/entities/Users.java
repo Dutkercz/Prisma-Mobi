@@ -1,5 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.entities;
 
+import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,9 +26,12 @@ public class Users implements UserDetails{
     private String login;
     private String password;
 
+    @Enumerated(value = EnumType.STRING)
+    private Roles role;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ADMIN_ROLE"));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
