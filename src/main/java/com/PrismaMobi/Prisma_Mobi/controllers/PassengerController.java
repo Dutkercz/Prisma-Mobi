@@ -1,9 +1,12 @@
 package com.PrismaMobi.Prisma_Mobi.controllers;
 
+import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerDTO;
 import com.PrismaMobi.Prisma_Mobi.services.PassengerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,6 +30,11 @@ public class PassengerController {
     public ResponseEntity<PassengerDTO> findById(@PathVariable Long id){
         PassengerDTO passenger = passengerService.findById(id);
         return ResponseEntity.ok().body(passenger.listing());
+    }
+
+    @GetMapping("/all")
+    public Page<PassengerDTO> findAll(Pageable pageable){
+        return passengerService.findAll(pageable);
     }
 
 }
