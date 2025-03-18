@@ -7,10 +7,7 @@ import com.PrismaMobi.Prisma_Mobi.services.UsersService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -27,5 +24,14 @@ public class UsersController {
         UsersDTO user = usersService.register(usersDTO);
         URI uri = builder.path("/api/users/register/{id}").buildAndExpand(user.id()).toUri();
         return ResponseEntity.created(uri).body(user);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody @Valid UsersDTO users){
+        Boolean authenticated = usersService.authorizeLogin(users.login(), users.password());
+        if(authenticated){
+            return ResponseEntity.ok("Login successfully");
+        }
+        return ResponseEntity.badRequest().body("Login failed, please check your credentials");
     }
 }
