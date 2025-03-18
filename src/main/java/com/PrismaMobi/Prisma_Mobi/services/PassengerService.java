@@ -6,7 +6,12 @@ import com.PrismaMobi.Prisma_Mobi.respositories.PassengerRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PassengerService {
@@ -23,5 +28,10 @@ public class PassengerService {
     public PassengerDTO findById(Long id) {
         Passenger passenger = passengerRepository.getReferenceById(id);
         return new PassengerDTO(passenger.getName(), passenger.getCpf(), passenger.getGender());
+    }
+
+    public Page<PassengerDTO> findAll(Pageable pageable) {
+        return passengerRepository.findAllByActiveTrue(pageable)
+                .map(x -> new PassengerDTO(x.getName(), x.getCpf(), x.getGender()));
     }
 }
