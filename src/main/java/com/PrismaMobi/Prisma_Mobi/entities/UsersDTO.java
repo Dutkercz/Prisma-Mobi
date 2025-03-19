@@ -22,6 +22,6 @@ public record UsersDTO(
         ) {
 
     public UsersDTO(Users users){
-        this(users.getId(), users.getLogin(), "******", users.getRole());
+        this(users.getId(), users.getLogin(), "******", users.getRoles());
     }
 }
