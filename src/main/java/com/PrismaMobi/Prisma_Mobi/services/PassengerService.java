@@ -1,5 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.services;
 
+import com.PrismaMobi.Prisma_Mobi.entities.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerDTO;
 import com.PrismaMobi.Prisma_Mobi.respositories.PassengerRepository;
@@ -23,9 +24,9 @@ public class PassengerService {
     private UsersService usersService;
 
     @Transactional
-    public Passenger save(@Valid PassengerDTO passengerDTO) {
+    public Passenger save(@Valid PassengerDTO passengerDTO, Users users) {
         return passengerRepository.save(new Passenger(null, passengerDTO.name(),
-                passengerDTO.cpf(), true, passengerDTO.gender()));
+                passengerDTO.cpf(), true, passengerDTO.gender(), users));
     }
 
     public PassengerDTO findById(Long id) {

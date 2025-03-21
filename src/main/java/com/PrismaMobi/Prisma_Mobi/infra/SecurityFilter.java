@@ -28,6 +28,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("FILTRO DE SEGURANÇA");
         String tokenJWT = recuperarToken(request);
 
         if (tokenJWT != null){
@@ -38,6 +39,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
         filterChain.doFilter(request, response);
+        System.out.println("Saindo do filtro de segurança");
 
     }
 

@@ -19,7 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("api/users")
+@RequestMapping("/api/users")
 public class UsersController {
 
     @Autowired

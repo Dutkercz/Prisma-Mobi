@@ -1,5 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.entities.passenger;
 
+import com.PrismaMobi.Prisma_Mobi.entities.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,4 +24,6 @@ public class Passenger {
     private Boolean active;
     @Enumerated(EnumType.STRING)
     private Gender gender;
+    @OneToOne(mappedBy = "users")
+    private Users users;
 }

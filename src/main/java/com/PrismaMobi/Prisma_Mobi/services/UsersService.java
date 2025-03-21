@@ -2,6 +2,7 @@ package com.PrismaMobi.Prisma_Mobi.services;
 
 import com.PrismaMobi.Prisma_Mobi.entities.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.UsersDTO;
+import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
 import com.PrismaMobi.Prisma_Mobi.respositories.UsersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class UsersService implements UserDetailsService {
     public UsersDTO register(UsersDTO usersDTO){
         String encryptedPassword = passwordEncoder.encode(usersDTO.password());
         Users users = usersRepository.save
-                (new Users(null, usersDTO.login(), encryptedPassword, usersDTO.role()));
+                (new Users(null, usersDTO.login(), encryptedPassword, null, Roles.ROLE_PASSENGER));
         return new UsersDTO(users);
     }
 

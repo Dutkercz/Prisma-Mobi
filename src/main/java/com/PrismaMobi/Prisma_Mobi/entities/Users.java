@@ -1,6 +1,7 @@
 package com.PrismaMobi.Prisma_Mobi.entities;
 
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
+import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,6 +24,9 @@ public class Users implements UserDetails{
     private Long id;
     private String login;
     private String password;
+
+    @OneToOne
+    private Passenger passenger;
 
     @Enumerated(value = EnumType.STRING)
     private Roles roles;

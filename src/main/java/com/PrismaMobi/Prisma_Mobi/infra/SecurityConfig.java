@@ -25,12 +25,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
+        System.out.println("FILTRO de ROTAS");
         return security.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(x ->
                         x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(x -> {
                     x.requestMatchers("/api/users/*").permitAll();
                     x.requestMatchers("/api/passenger/*").authenticated();
+                    x.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
