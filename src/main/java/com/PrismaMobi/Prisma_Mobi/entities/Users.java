@@ -25,9 +25,6 @@ public class Users implements UserDetails{
     private String login;
     private String password;
 
-    @OneToOne
-    private Passenger passenger;
-
     @Enumerated(value = EnumType.STRING)
     private Roles roles;
 

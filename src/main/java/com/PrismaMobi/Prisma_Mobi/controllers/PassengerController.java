@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -24,16 +25,17 @@ public class PassengerController {
     @Autowired
     private TokenService tokenService;
     @Autowired
-    private UsersRepository repository;
+    private UsersRepository usersRepository;
 
     @PostMapping("/register")
     public ResponseEntity<PassengerDTO> passengerRegister(@RequestBody @Valid PassengerDTO passengerDTO,
-                                            @RequestAttribute("subject") String login,
                                             UriComponentsBuilder builder){
         //teste
-        System.out.println("Login do usuário autenticado: " + login);
-        Users users = repository.findByLogin(login);
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("Nome >> "+ login);
+        Users users = usersRepository.findByLogin(login);
         //fim do teste
+
         Passenger passenger = passengerService.save(passengerDTO, users);
         URI uri = builder.path("/api/passenger/register/{id}").buildAndExpand(passenger.getId()).toUri();
         return ResponseEntity.created(uri).body(passengerDTO.listing());

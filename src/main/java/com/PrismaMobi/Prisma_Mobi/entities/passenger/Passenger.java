@@ -22,8 +22,11 @@ public class Passenger {
     private String name;
     private String cpf;
     private Boolean active;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    @OneToOne(mappedBy = "users")
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private Users users;
 }
