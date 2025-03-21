@@ -32,7 +32,8 @@ public class UsersController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public ResponseEntity<UsersDTO> registerUser(@RequestBody @Valid UsersDTO usersDTO, UriComponentsBuilder builder){
+    public ResponseEntity<UsersDTO> registerUser(@RequestBody @Valid UsersDTO usersDTO,
+                                                 UriComponentsBuilder builder){
         UsersDTO user = usersService.register(usersDTO);
         URI uri = builder.path("/api/users/register/{id}").buildAndExpand(user.id()).toUri();
         return ResponseEntity.created(uri).body(user);

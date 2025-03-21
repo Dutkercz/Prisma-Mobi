@@ -29,26 +29,23 @@ public class PassengerController {
 
     @PostMapping("/register")
     public ResponseEntity<PassengerDTO> passengerRegister(@RequestBody @Valid PassengerDTO passengerDTO,
-                                            UriComponentsBuilder builder){
-        //teste
-        String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("Nome >> "+ login);
-        Users users = usersRepository.findByLogin(login);
-        //fim do teste
+                                                          UriComponentsBuilder builder) {
 
-        Passenger passenger = passengerService.save(passengerDTO, users);
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Passenger passenger = passengerService.save(passengerDTO, login);
         URI uri = builder.path("/api/passenger/register/{id}").buildAndExpand(passenger.getId()).toUri();
         return ResponseEntity.created(uri).body(passengerDTO.listing());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PassengerDTO> findById(@PathVariable Long id){
+    public ResponseEntity<PassengerDTO> findById(@PathVariable Long id) {
         PassengerDTO passenger = passengerService.findById(id);
         return ResponseEntity.ok().body(passenger.listing());
     }
 
     @GetMapping("/all")
-    public Page<PassengerDTO> findAll(Pageable pageable){
+    public Page<PassengerDTO> findAll(Pageable pageable) {
         return passengerService.findAll(pageable);
     }
 
