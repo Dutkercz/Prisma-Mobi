@@ -19,6 +19,9 @@ public class PassengerService {
     @Autowired
     private PassengerRepository passengerRepository;
 
+    @Autowired
+    private UsersService usersService;
+
     @Transactional
     public Passenger save(@Valid PassengerDTO passengerDTO) {
         return passengerRepository.save(new Passenger(null, passengerDTO.name(),
