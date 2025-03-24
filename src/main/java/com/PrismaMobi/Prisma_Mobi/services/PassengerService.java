@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -40,5 +41,20 @@ public class PassengerService {
     public Page<PassengerDTO> findAll(Pageable pageable) {
         return passengerRepository.findAllByActiveTrue(pageable)
                 .map(x -> new PassengerDTO(x.getName(), x.getCpf(), x.getGender()));
+    }
+
+    @Transactional
+    public PassengerDTO deleteLoggedPassenger(String login) {
+        Users users = usersRepository.findByLogin(login);
+        Passenger passenger = passengerRepository.findPassengerByUsersId(users.getId())
+                .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
+        passenger.setInactive();
+        return new PassengerDTO(passenger);
+    }
+
+    public Passenger details(String login) {
+        Users users = usersRepository.findByLogin(login);
+        return passengerRepository.findPassengerByUsersIdAndActiveTrue(users.getId())
+                .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
     }
 }

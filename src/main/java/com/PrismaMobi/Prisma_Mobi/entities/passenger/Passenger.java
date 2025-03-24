@@ -29,4 +29,8 @@ public class Passenger {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private Users users;
+
+    public void setInactive() {
+        this.active = false;
+    }
 }

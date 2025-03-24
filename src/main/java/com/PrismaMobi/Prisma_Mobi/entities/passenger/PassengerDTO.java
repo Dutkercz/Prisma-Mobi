@@ -19,6 +19,10 @@ public record PassengerDTO(
 
         ){
 
+    public PassengerDTO(Passenger passenger) {
+        this(passenger.getName(), "*********-" + passenger.getCpf().substring(9,11), passenger.getGender());
+    }
+
     public PassengerDTO listing(){
         return new PassengerDTO(name,"*********-"+cpf.substring(9,11), gender);
     }

@@ -48,4 +48,18 @@ public class PassengerController {
         return passengerService.findAll(pageable);
     }
 
+    @GetMapping("/details")
+    public ResponseEntity<Passenger> details(){
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        Passenger passenger = passengerService.details(login);
+        return ResponseEntity.ok().body(passenger);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<PassengerDTO> deletePassenger(){
+
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(passengerService.deleteLoggedPassenger(login));
+    }
+
 }

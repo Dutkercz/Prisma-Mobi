@@ -44,6 +44,11 @@ public class ErrorsHandler {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<?> badRequest(RuntimeException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
 
     public record ErrorResponse(int status, String message, LocalDateTime timestamp) {
     }
