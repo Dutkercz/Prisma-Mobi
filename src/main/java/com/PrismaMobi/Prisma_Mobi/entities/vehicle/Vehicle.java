@@ -2,6 +2,8 @@ package com.PrismaMobi.Prisma_Mobi.entities.vehicle;
 
 import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,7 +24,7 @@ public class Vehicle {
     private String model;
     private String year;
     private String plate;
-    @OneToOne(mappedBy = "vehicle")
-    private Driver driver;
 
+    public Vehicle(@NotNull @Valid VehicleDTO vehicle) {
+    }
 }

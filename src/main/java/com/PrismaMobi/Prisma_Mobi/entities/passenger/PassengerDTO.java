@@ -1,6 +1,5 @@
 package com.PrismaMobi.Prisma_Mobi.entities.passenger;
 
-import com.PrismaMobi.Prisma_Mobi.entities.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Gender;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

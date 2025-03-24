@@ -1,6 +1,5 @@
 package com.PrismaMobi.Prisma_Mobi.controllers;
 
-import com.PrismaMobi.Prisma_Mobi.entities.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerDTO;
 import com.PrismaMobi.Prisma_Mobi.respositories.UsersRepository;

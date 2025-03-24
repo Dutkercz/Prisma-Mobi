@@ -1,6 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.services;
 
-import com.PrismaMobi.Prisma_Mobi.entities.Users;
+import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

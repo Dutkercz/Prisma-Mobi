@@ -1,6 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.respositories;
 
-import com.PrismaMobi.Prisma_Mobi.entities.Users;
+import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UsersRepository extends JpaRepository<Users, Long> {

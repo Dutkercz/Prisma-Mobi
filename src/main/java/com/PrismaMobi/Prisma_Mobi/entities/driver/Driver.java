@@ -1,5 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.entities.driver;
 
+import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.vehicle.Vehicle;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Gender;
 import jakarta.persistence.*;
@@ -19,11 +20,18 @@ public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String cpf;
     private Boolean active;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Vehicle vehicle;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private Users users;
 }

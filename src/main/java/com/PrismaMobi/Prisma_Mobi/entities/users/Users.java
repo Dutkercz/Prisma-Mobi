@@ -1,7 +1,6 @@
-package com.PrismaMobi.Prisma_Mobi.entities;
+package com.PrismaMobi.Prisma_Mobi.entities.users;
 
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
-import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,7 +1,7 @@
 package com.PrismaMobi.Prisma_Mobi.controllers;
 
-import com.PrismaMobi.Prisma_Mobi.entities.Users;
-import com.PrismaMobi.Prisma_Mobi.entities.UsersDTO;
+import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
+import com.PrismaMobi.Prisma_Mobi.entities.users.UsersDTO;
 import com.PrismaMobi.Prisma_Mobi.services.TokenService;
 import com.PrismaMobi.Prisma_Mobi.services.UsersService;
 import jakarta.validation.Valid;
