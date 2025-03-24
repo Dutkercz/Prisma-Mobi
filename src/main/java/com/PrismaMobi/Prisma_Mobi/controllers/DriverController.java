@@ -30,6 +30,6 @@ public class DriverController {
 
         URI uri = builder.path("api/driver/register/{id}").buildAndExpand(driver.getId()).toUri();
 
-
+        return ResponseEntity.created(uri).body(driverDTO.listing());
     }
 }

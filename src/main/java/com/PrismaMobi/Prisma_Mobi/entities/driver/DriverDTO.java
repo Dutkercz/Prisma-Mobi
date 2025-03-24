@@ -1,6 +1,7 @@
 package com.PrismaMobi.Prisma_Mobi.entities.driver;
 
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Gender;
+import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.vehicle.Vehicle;
 import com.PrismaMobi.Prisma_Mobi.entities.vehicle.VehicleDTO;
 import jakarta.validation.Valid;
@@ -19,4 +20,8 @@ public record DriverDTO (@NotBlank(message = "O campo NOME não pode estar em br
                          Gender gender,
 
                          @NotNull @Valid VehicleDTO vehicle){
+
+    public DriverDTO listing() {
+        return new DriverDTO(name,"*********-"+cpf.substring(9,11), gender, vehicle);
+    }
 }
