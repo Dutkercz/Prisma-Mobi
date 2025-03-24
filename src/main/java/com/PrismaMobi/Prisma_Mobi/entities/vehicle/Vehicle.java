@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(of = "id")
+@Table
 public class Vehicle {
 
     @Id
@@ -21,9 +22,15 @@ public class Vehicle {
     private Long id;
     private String brand;
     private String model;
+    @Column(name = "manufacture_year")
     private String year;
     private String plate;
 
     public Vehicle(@NotNull @Valid VehicleDTO vehicle) {
+        this.id = null;
+        this.brand = vehicle.brand();
+        this.model = vehicle.model();
+        this.year = vehicle.year();
+        this.plate = vehicle.plate();
     }
 }
