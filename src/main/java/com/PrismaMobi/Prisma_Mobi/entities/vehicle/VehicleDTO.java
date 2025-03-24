@@ -1,7 +1,5 @@
 package com.PrismaMobi.Prisma_Mobi.entities.vehicle;
 
-import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 

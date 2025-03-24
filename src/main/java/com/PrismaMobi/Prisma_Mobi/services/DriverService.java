@@ -19,16 +19,12 @@ public class DriverService {
     @Autowired
     private UsersRepository usersRepository;
 
-    @Autowired
-    private VehicleService vehicleService;
-
     @Transactional
     public Driver saveDriver(DriverDTO driverDTO, String login) {
 
         Users users = usersRepository.findByLogin(login);
-        Vehicle vehicle = vehicleService.saveVehicle(driverDTO.vehicle());
 
         return driverRepository.save(new Driver(null, driverDTO.name(), driverDTO.cpf(), true,
-                driverDTO.gender(),vehicle, users));
+                driverDTO.gender(),new Vehicle(driverDTO.vehicle()), users));
     }
 }

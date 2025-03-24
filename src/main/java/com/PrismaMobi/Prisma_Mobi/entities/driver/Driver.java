@@ -28,7 +28,7 @@ public class Driver {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @Embedded
     private Vehicle vehicle;
 
     @OneToOne(cascade = CascadeType.ALL)
