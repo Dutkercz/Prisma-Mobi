@@ -21,6 +21,10 @@ public record DriverDTO (@NotBlank(message = "O campo NOME não pode estar em br
 
                          @NotNull @Valid VehicleDTO vehicle){
 
+    public DriverDTO(Driver driver) {
+        this(driver.getName(), "*********-"+driver.getCpf().substring(9,11), driver.getGender(), new VehicleDTO(driver.getVehicle()));
+    }
+
     public DriverDTO listing() {
         return new DriverDTO(name,"*********-"+cpf.substring(9,11), gender, vehicle);
     }

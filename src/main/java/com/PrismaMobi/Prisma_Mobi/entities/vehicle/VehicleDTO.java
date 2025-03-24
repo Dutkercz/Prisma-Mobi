@@ -16,4 +16,8 @@ public record VehicleDTO(
 
         @NotBlank(message = "O campo PLATE é obrigatório")
         String plate){
+
+        public VehicleDTO(Vehicle vehicle) {
+                this(vehicle.getBrand(), vehicle.getModel(), vehicle.getYear(), vehicle.getPlate());
+        }
 }

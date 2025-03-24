@@ -24,6 +24,6 @@ public class Vehicle {
         this.brand = vehicle.brand();
         this.model = vehicle.model();
         this.year = vehicle.year();
-        this.plate = vehicle.plate();
+        this.plate = vehicle.plate().toUpperCase();
     }
 }
