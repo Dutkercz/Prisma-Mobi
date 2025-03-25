@@ -26,11 +26,10 @@ public class PassengerController {
     @Autowired
     private UsersRepository usersRepository;
 
-    private static final String login = SecurityContextHolder.getContext().getAuthentication().getName();
-
     @PostMapping("/register")
     public ResponseEntity<PassengerDTO> passengerRegister(@RequestBody @Valid PassengerDTO passengerDTO,
                                                           UriComponentsBuilder builder) {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
         Passenger passenger = passengerService.save(passengerDTO, login);
         URI uri = builder.path("/api/passenger/register/{id}").buildAndExpand(passenger.getId()).toUri();
         return ResponseEntity.created(uri).body(passengerDTO.listing());
@@ -49,12 +48,14 @@ public class PassengerController {
 
     @GetMapping("/details")
     public ResponseEntity<Passenger> details(){
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
         Passenger passenger = passengerService.details(login);
         return ResponseEntity.ok().body(passenger);
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<PassengerDTO> deletePassenger(){
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(passengerService.deleteLoggedPassenger(login));
     }
 

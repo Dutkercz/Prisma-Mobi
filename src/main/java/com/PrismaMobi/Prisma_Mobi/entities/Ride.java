@@ -5,10 +5,7 @@ import com.PrismaMobi.Prisma_Mobi.entities.address.Origin;
 import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -29,6 +26,9 @@ public class Ride {
 
     @Embedded
     private Destination destination;
+
+    @Setter
+    private Double totalPrice;
 
     private LocalDateTime date;
 
