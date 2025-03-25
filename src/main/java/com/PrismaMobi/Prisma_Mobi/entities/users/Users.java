@@ -1,6 +1,7 @@
 package com.PrismaMobi.Prisma_Mobi.entities.users;
 
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,11 +28,13 @@ public class Users implements UserDetails{
     @Enumerated(value = EnumType.STRING)
     private Roles roles;
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(roles.name()));
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return password;
@@ -42,21 +45,25 @@ public class Users implements UserDetails{
         return login;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return UserDetails.super.isAccountNonExpired();
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return UserDetails.super.isAccountNonLocked();
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return UserDetails.super.isCredentialsNonExpired();
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
