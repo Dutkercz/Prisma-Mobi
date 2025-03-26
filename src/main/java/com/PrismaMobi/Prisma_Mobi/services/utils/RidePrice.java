@@ -12,11 +12,16 @@ public class RidePrice {
     public static Double ridePrice(RideCoordinates coordinates){
         double distance = DistanceCalculator.calculateDistance(coordinates.originLat(), coordinates.originLongi(),
                 coordinates.destinationLat(), coordinates.destinationLongi());
+        System.out.println("Distance " + distance);
         if (distance <= 3.00){
+            System.out.println("Distance " + distance);
+            System.out.println("Total sem add" +RIDE_FEE);
             return RIDE_FEE;
-        }else {
-            return RIDE_FEE + (5 * (distance - 3.0));
         }
+        System.out.println("Distance " +distance);
+
+        System.out.println("Total com add " + RIDE_FEE + (5 * (distance - 3.0)));
+        return RIDE_FEE + (5 * (distance - 3.0));
 
     }
 }
