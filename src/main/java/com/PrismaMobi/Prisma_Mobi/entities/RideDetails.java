@@ -6,7 +6,7 @@ public record RideDetails(String passenger, String driver, LocalDateTime date, D
     public RideDetails(Ride ride) {
         this(ride.getPassenger().getName(),
                 ride.getDriver().getName(),
-                ride.getDate(),
+                ride.getRideDate(),
                 ride.getTotalPrice());
     }
 }

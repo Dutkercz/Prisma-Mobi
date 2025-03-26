@@ -38,7 +38,9 @@ public class RideService {
         Passenger passenger = passengerRepository.findPassengerByUsersId(users.getId())
                 .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
 
+        System.out.println("Selecionando Motora aleatorio");
         Driver driver = driverRepository.findRandomDriver();
+        System.out.println("Motora selecionado: " + driver);
 
         Ride ride = rideRepository.save(new Ride(null,
                 new Origin(coordinates.originLat(), coordinates.originLongi()),

@@ -30,7 +30,7 @@ public class Ride {
     @Setter
     private Double totalPrice;
 
-    private LocalDateTime date;
+    private LocalDateTime rideDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Passenger passenger;

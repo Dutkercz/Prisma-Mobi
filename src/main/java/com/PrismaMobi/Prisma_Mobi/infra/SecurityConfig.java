@@ -30,6 +30,7 @@ public class SecurityConfig {
                     x.requestMatchers("/api/users/*").permitAll();
                     x.requestMatchers("/api/passenger/*").authenticated();
                     x.requestMatchers("/api/driver/*").authenticated();
+                    x.requestMatchers("/api/ride/*").authenticated();
                     x.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

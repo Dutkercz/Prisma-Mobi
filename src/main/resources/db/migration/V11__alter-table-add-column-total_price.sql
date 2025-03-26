@@ -1,0 +1,1 @@
+alter table ride add column total_price double;

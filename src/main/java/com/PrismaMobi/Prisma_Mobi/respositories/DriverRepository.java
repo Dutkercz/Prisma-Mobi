@@ -10,7 +10,7 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
     Optional<Driver> findDriverByVehiclePlate(String plate);
 
     @Query(value = """
-            SELECT x FROM Driver x
+            SELECT * FROM driver x
             WHERE
             x.active = true
             ORDER BY RAND()
