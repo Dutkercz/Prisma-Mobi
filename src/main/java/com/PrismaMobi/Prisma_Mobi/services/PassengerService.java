@@ -57,4 +57,17 @@ public class PassengerService {
         return passengerRepository.findPassengerByUsersIdAndActiveTrue(users.getId())
                 .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
     }
+
+    @Transactional
+    public Passenger updatePassengerName(String name, String login) {
+        Users users = usersRepository.findByLogin(login);
+        Passenger passenger = passengerRepository.findPassengerByUsersId(users.getId())
+                .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
+        if(name != null){
+            passenger.setName(name.trim());
+            passengerRepository.save(passenger);
+            return passenger;
+        }
+        return null;
+    }
 }

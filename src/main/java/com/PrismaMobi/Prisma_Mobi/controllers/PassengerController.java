@@ -1,5 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.controllers;
 
+import com.PrismaMobi.Prisma_Mobi.entities.UpdatePassengerDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerDTO;
 import com.PrismaMobi.Prisma_Mobi.respositories.UsersRepository;
@@ -51,6 +52,14 @@ public class PassengerController {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         Passenger passenger = passengerService.details(login);
         return ResponseEntity.ok().body(passenger);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updatePassenger(@RequestBody @Valid UpdatePassengerDTO update){
+
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        Passenger passenger = passengerService.updatePassengerName(update.name(), login);
+        return ResponseEntity.ok(new PassengerDTO(passenger).listing());
     }
 
     @DeleteMapping("/delete")
