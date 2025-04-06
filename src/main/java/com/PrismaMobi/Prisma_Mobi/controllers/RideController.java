@@ -4,6 +4,7 @@ import com.PrismaMobi.Prisma_Mobi.entities.Ride;
 import com.PrismaMobi.Prisma_Mobi.entities.RideCoordinates;
 import com.PrismaMobi.Prisma_Mobi.entities.RideDetails;
 import com.PrismaMobi.Prisma_Mobi.services.RideService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/ride")
+@SecurityRequirement(name = "bearer-key")
 public class RideController {
 
     @Autowired

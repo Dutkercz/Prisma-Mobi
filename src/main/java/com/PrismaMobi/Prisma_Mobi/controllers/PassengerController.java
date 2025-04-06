@@ -6,6 +6,7 @@ import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerDTO;
 import com.PrismaMobi.Prisma_Mobi.respositories.UsersRepository;
 import com.PrismaMobi.Prisma_Mobi.services.PassengerService;
 import com.PrismaMobi.Prisma_Mobi.services.TokenService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/passenger")
+@SecurityRequirement(name = "bearer-key")
 public class PassengerController {
     @Autowired
     private PassengerService passengerService;

@@ -4,6 +4,7 @@ import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.users.UsersDTO;
 import com.PrismaMobi.Prisma_Mobi.services.TokenService;
 import com.PrismaMobi.Prisma_Mobi.services.UsersService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
