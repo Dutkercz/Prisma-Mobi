@@ -3,14 +3,13 @@ package com.PrismaMobi.Prisma_Mobi.services;
 import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerDTO;
-import com.PrismaMobi.Prisma_Mobi.respositories.PassengerRepository;
-import com.PrismaMobi.Prisma_Mobi.respositories.UsersRepository;
+import com.PrismaMobi.Prisma_Mobi.repositories.PassengerRepository;
+import com.PrismaMobi.Prisma_Mobi.repositories.UsersRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service

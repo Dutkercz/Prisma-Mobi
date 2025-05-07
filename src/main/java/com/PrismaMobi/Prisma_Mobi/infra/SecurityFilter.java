@@ -1,7 +1,7 @@
 package com.PrismaMobi.Prisma_Mobi.infra;
 
 import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
-import com.PrismaMobi.Prisma_Mobi.respositories.UsersRepository;
+import com.PrismaMobi.Prisma_Mobi.repositories.UsersRepository;
 import com.PrismaMobi.Prisma_Mobi.services.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

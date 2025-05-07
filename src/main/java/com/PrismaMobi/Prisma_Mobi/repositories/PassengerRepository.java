@@ -1,7 +1,6 @@
-package com.PrismaMobi.Prisma_Mobi.respositories;
+package com.PrismaMobi.Prisma_Mobi.repositories;
 
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
-import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

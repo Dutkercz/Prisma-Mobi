@@ -3,7 +3,7 @@ package com.PrismaMobi.Prisma_Mobi.controllers;
 import com.PrismaMobi.Prisma_Mobi.entities.UpdatePassengerDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerDTO;
-import com.PrismaMobi.Prisma_Mobi.respositories.UsersRepository;
+import com.PrismaMobi.Prisma_Mobi.repositories.UsersRepository;
 import com.PrismaMobi.Prisma_Mobi.services.PassengerService;
 import com.PrismaMobi.Prisma_Mobi.services.TokenService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

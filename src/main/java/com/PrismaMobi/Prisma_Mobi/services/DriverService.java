@@ -4,11 +4,10 @@ import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
 import com.PrismaMobi.Prisma_Mobi.entities.driver.DriverDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.vehicle.Vehicle;
-import com.PrismaMobi.Prisma_Mobi.respositories.DriverRepository;
-import com.PrismaMobi.Prisma_Mobi.respositories.UsersRepository;
+import com.PrismaMobi.Prisma_Mobi.repositories.DriverRepository;
+import com.PrismaMobi.Prisma_Mobi.repositories.UsersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service

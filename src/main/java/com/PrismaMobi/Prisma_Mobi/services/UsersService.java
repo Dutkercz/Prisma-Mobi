@@ -3,7 +3,7 @@ package com.PrismaMobi.Prisma_Mobi.services;
 import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.users.UsersDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
-import com.PrismaMobi.Prisma_Mobi.respositories.UsersRepository;
+import com.PrismaMobi.Prisma_Mobi.repositories.UsersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
