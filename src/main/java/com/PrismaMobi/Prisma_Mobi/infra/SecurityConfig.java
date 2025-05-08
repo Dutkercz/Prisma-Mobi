@@ -30,14 +30,14 @@ public class SecurityConfig {
         return security.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(x -> {
-                    x.requestMatchers("/api/users/register").permitAll();
-                    x.requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll();
-                    x.requestMatchers("/api/passenger/*").authenticated();
-                    x.requestMatchers("/api/driver/*").authenticated();
-                    x.requestMatchers("/api/ride/*").authenticated();
+                    x.requestMatchers("/api/users/**").permitAll();
+                    x.requestMatchers("/swagger-ui.html/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll();
+                    x.requestMatchers("/api/passenger/**").authenticated();
+                    x.requestMatchers("/api/driver/**").authenticated();
+                    x.requestMatchers("/api/ride/**").authenticated();
                     x.anyRequest().authenticated();
                 })
-                .cors(cors -> cors.configurationSource(request -> {
+                /*.cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOrigins(List.of("https://prisma-mobi-production.up.railway.app"
                     ));
@@ -45,7 +45,7 @@ public class SecurityConfig {
                     config.setAllowedHeaders(List.of("*"));
                     config.setAllowCredentials(true);
                     return config;
-                }))
+                }))*/
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
