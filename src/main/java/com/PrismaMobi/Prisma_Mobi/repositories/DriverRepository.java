@@ -17,4 +17,6 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
             LIMIT 1
             """, nativeQuery = true)
     Driver findRandomDriver();
+
+    Optional<Driver> findByUsersIdAndActive(Long usersId, Boolean True);
 }
