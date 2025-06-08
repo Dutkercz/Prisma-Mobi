@@ -26,7 +26,7 @@ public class DriverController {
         this.driverService = driverService;
     }
 
-    @PostMapping
+    @PostMapping //registo de novo motorista.
     public ResponseEntity<DriverDTO> registerDriver(@RequestBody @Valid DriverRegisterDTO driverRegisterDTO,
                                                     UriComponentsBuilder builder) {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -35,18 +35,18 @@ public class DriverController {
         return ResponseEntity.created(uri).body(new DriverDTO(driver));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all") //trás uma lista de com todos os motoristas ativos.
     public ResponseEntity<Page<DriverDTO>> findAll(Pageable pageable) {
         Page<DriverDTO> driverPage = driverService.findAll(pageable).map(DriverDTO::new);
         return ResponseEntity.ok().body(driverPage);
     }
 
-    @GetMapping("/{plate}")
+    @GetMapping("/{plate}") //encontra um motorista pela placa do carro, caso esteja ativo.
     public ResponseEntity<DriverDTO> findByPlate(@PathVariable String plate) {
         return ResponseEntity.ok(driverService.findByPlate(plate.toUpperCase()));
     }
 
-    @PutMapping
+    @PutMapping //atualizar motorista logado
     public ResponseEntity<DriverDTO> update(@RequestBody DriverUpdateDTO updateDTO) {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println(login);
@@ -55,7 +55,7 @@ public class DriverController {
         return ResponseEntity.ok(new DriverDTO(driver));
     }
 
-    @DeleteMapping
+    @DeleteMapping //delet motorista logado.(soft delete, marca ele como inativo, sem apagar os dados do DB)
     public ResponseEntity<?> selfDelete() {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         driverService.deleteDriver(login);
