@@ -27,8 +27,9 @@ public class DriverService {
     @Transactional
     public Driver saveDriver(DriverRegisterDTO driverRegisterDTO, String login) {
         Users users = usersRepository.findByLogin(login);
-        return driverRepository.save(new Driver(null, driverRegisterDTO.name(), driverRegisterDTO.cpf(), true,
-                driverRegisterDTO.gender(), new Vehicle(driverRegisterDTO.vehicle()), users));
+        Driver driver = new Driver(null, driverRegisterDTO.name(), driverRegisterDTO.cpf(), true,
+                driverRegisterDTO.gender(), new Vehicle(driverRegisterDTO.vehicle()), users);
+        return driverRepository.save(driver);
     }
 
     public DriverDTO findByPlate(String plate) {
@@ -52,8 +53,10 @@ public class DriverService {
     @Transactional
     public Driver updateDriver(DriverUpdateDTO updateDTO, String login) {
         Users users = usersRepository.findByLogin(login);
+        System.out.println(users.getUsername());
         Driver driver = driverRepository.findByUsersIdAndActive(users.getId(), true)
                 .orElseThrow(() -> new EntityNotFoundException("Driver not found."));
+        System.out.println("Driver nome atual: "+ driver.getName());
         driver.update(updateDTO);
         return driver;
     }

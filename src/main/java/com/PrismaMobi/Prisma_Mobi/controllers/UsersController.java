@@ -1,6 +1,8 @@
 package com.PrismaMobi.Prisma_Mobi.controllers;
 
+import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.users.UsersDTO;
+import com.PrismaMobi.Prisma_Mobi.entities.users.UsersResponseDTO;
 import com.PrismaMobi.Prisma_Mobi.services.TokenService;
 import com.PrismaMobi.Prisma_Mobi.services.UsersService;
 import jakarta.validation.Valid;
@@ -19,21 +21,18 @@ import java.net.URI;
 @RequestMapping("/users")
 public class UsersController {
 
-    @Autowired
-    private UsersService usersService;
+    private final UsersService usersService;
 
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    public UsersController(UsersService usersService) {
+        this.usersService = usersService;
+    }
 
     @PostMapping
-    public ResponseEntity<UsersDTO> registerUser(@RequestBody @Valid UsersDTO usersDTO,
-                                                 UriComponentsBuilder builder) {
-        UsersDTO user = usersService.register(usersDTO);
-        URI uri = builder.path("/api/users/register/{id}").buildAndExpand(user.id()).toUri();
-        return ResponseEntity.created(uri).body(user);
+    public ResponseEntity<UsersResponseDTO> registerUser(@RequestBody @Valid UsersDTO usersDTO,
+                                                         UriComponentsBuilder builder) {
+        Users user = usersService.register(usersDTO);
+        URI uri = builder.path("/users/register/{id}").buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.created(uri).body(new UsersResponseDTO(user));
     }
 
 }

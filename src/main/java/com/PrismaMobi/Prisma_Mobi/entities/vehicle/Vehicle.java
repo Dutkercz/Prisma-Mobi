@@ -20,10 +20,25 @@ public class Vehicle {
     private String year;
     private String plate;
 
-    public Vehicle(@NotNull @Valid VehicleDTO vehicle) {
+    public Vehicle(@Valid VehicleDTO vehicle) {
         this.brand = vehicle.brand();
         this.model = vehicle.model();
         this.year = vehicle.year();
-        this.plate = vehicle.plate().toUpperCase();
+        this.plate = vehicle.plate();
+    }
+
+    public void update(@Valid VehicleDTO vehicle) {
+        if(vehicle.brand() != null && !vehicle.brand().isBlank()){
+            this.brand = vehicle.brand();
+        }
+        if(vehicle.model() != null && !vehicle.model().isBlank()){
+            this.model = vehicle.model();
+        }
+        if(vehicle.year() != null && !vehicle.year().isBlank()){
+            this.year = vehicle.year();
+        }
+        if(vehicle.plate() != null && !vehicle.plate().isBlank()){
+            this.plate = vehicle.plate().toUpperCase();
+        }
     }
 }

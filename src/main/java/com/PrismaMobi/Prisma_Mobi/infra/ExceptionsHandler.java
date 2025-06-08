@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @RestControllerAdvice
-public class ErrorsHandler {
+public class ExceptionsHandler {
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity<?> duplicateEntries(SQLIntegrityConstraintViolationException e) {

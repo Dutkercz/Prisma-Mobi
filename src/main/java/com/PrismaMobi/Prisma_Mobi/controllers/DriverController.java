@@ -20,8 +20,11 @@ import java.net.URI;
 @RequestMapping("/drivers")
 public class DriverController {
 
-    @Autowired
-    private DriverService driverService;
+    private final DriverService driverService;
+
+    public DriverController(DriverService driverService) {
+        this.driverService = driverService;
+    }
 
     @PostMapping
     public ResponseEntity<DriverDTO> registerDriver(@RequestBody @Valid DriverRegisterDTO driverRegisterDTO,
@@ -44,14 +47,16 @@ public class DriverController {
     }
 
     @PutMapping
-    public ResponseEntity<DriverDTO> update(@PathVariable DriverUpdateDTO updateDTO) {
+    public ResponseEntity<DriverDTO> update(@RequestBody DriverUpdateDTO updateDTO) {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(login);
         Driver driver = driverService.updateDriver(updateDTO, login);
+        System.out.println("Novo nome" + driver.getName());
         return ResponseEntity.ok(new DriverDTO(driver));
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteById() {
+    public ResponseEntity<?> selfDelete() {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         driverService.deleteDriver(login);
         return ResponseEntity.noContent().build();

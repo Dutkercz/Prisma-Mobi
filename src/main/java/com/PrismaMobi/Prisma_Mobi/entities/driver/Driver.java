@@ -40,11 +40,11 @@ public class Driver {
     }
 
     public void update(DriverUpdateDTO updateDTO) {
-        if (!updateDTO.name().isBlank()) {
+        if (updateDTO.name() != null && !updateDTO.name().isBlank()) {
             this.name = updateDTO.name();
         }
-        if (updateDTO.vehicleDTO() != null) {
-            this.vehicle = new Vehicle(updateDTO.vehicleDTO());
+        if (updateDTO.vehicle() != null) {
+            this.vehicle.update(updateDTO.vehicle());
         }
     }
 }

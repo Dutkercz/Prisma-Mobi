@@ -23,11 +23,10 @@ public class UsersService implements UserDetailsService {
 
 
     @Transactional
-    public UsersDTO register(UsersDTO usersDTO) {
+    public Users register(UsersDTO usersDTO) {
         String encryptedPassword = passwordEncoder.encode(usersDTO.password());
-        Users users = usersRepository.save
+        return usersRepository.save
                 (new Users(null, usersDTO.login(), encryptedPassword, Roles.ROLE_PASSENGER));
-        return new UsersDTO(users);
     }
 
     public Boolean authorizeLogin(String login, String password) {

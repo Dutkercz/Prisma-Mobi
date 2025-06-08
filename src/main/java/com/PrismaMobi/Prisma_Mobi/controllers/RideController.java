@@ -21,10 +21,13 @@ import java.net.URI;
 @SecurityRequirement(name = "bearer-key")
 public class RideController {
 
-    @Autowired
-    private RideService rideService;
+    private final RideService rideService;
 
-    @PostMapping()
+    public RideController(RideService rideService) {
+        this.rideService = rideService;
+    }
+
+    @PostMapping
     public ResponseEntity<?> ride(@RequestBody RideCoordinates rideCoordinates, UriComponentsBuilder builder) {
 
         String login = SecurityContextHolder.getContext().getAuthentication().getName();

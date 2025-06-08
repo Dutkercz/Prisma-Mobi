@@ -20,12 +20,4 @@ public record DriverRegisterDTO(
 
         @NotNull @Valid
         VehicleDTO vehicle) {
-
-    public DriverRegisterDTO(Driver driver) {
-        this(driver.getName(), "*********-" + driver.getCpf().substring(9, 11), driver.getGender(), new VehicleDTO(driver.getVehicle()));
-    }
-
-    public DriverRegisterDTO listing() {
-        return new DriverRegisterDTO(name, "*********-" + cpf.substring(9, 11), gender, vehicle);
-    }
 }
