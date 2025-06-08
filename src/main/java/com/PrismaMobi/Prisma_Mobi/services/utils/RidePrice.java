@@ -9,10 +9,10 @@ public class RidePrice {
     /*Se a distância total for de até 3Km, será cobrado somente a taxa da corrida de R$ 15,00,
     mas se a distância for superior a 3Km, será cobrado um extra de R$ 5,00 a mais por Km.
     */
-    public static Double ridePrice(RideCoordinates coordinates){
+    public static Double ridePrice(RideCoordinates coordinates) {
         double distance = DistanceCalculator.calculateDistance(coordinates.originLat(), coordinates.originLongi(),
                 coordinates.destinationLat(), coordinates.destinationLongi());
-        if (distance <= 3.00){
+        if (distance <= 3.00) {
             System.out.println("Total sem add" + RIDE_FEE);
             return RIDE_FEE;
         }

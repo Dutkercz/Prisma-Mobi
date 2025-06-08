@@ -14,9 +14,9 @@ public record UsersDTO(
         @NotBlank(message = "O campo PASSWORD nome não pode estar em branco.")
         @Size(min = 6, message = "A senha deve conter no mínimo 6 caracteres.")
         String password
-        ) {
+) {
 
-    public UsersDTO(Users users){
+    public UsersDTO(Users users) {
         this(users.getId(), users.getLogin(), "******");
     }
 }

@@ -19,9 +19,9 @@ public class SpringDocConfig {
         return new OpenAPI()
                 .servers(List.of(new Server().url("https://prisma-mobi-production.up.railway.app")))
                 .components(new Components().
-                addSecuritySchemes("bearer-key",
-                        new SecurityScheme().type(
-                                SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
+                        addSecuritySchemes("bearer-key",
+                                new SecurityScheme().type(
+                                        SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                 .info(new Info()
                         .title("Prisma-Mobi API")
                         .description("Documentação da API para o sistema PRISMA-MOBI")

@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface PassengerRepository extends JpaRepository<Passenger, Long>{
-    Page<Passenger> findAllByActiveTrue (Pageable pageable);
+public interface PassengerRepository extends JpaRepository<Passenger, Long> {
+    Page<Passenger> findAllByActiveTrue(Pageable pageable);
 
     Optional<Passenger> findByCpf(String cpf);
 

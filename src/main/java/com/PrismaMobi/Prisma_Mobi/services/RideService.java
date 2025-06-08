@@ -30,7 +30,6 @@ public class RideService {
     private DriverRepository driverRepository;
 
 
-
     public Ride saveRide(RideCoordinates coordinates, String login) {
         Users users = usersRepository.findByLogin(login);
 
@@ -44,7 +43,7 @@ public class RideService {
         Ride ride = rideRepository.save(new Ride(null,
                 new Origin(coordinates.originLat(), coordinates.originLongi()),
                 new Destination(coordinates.destinationLat(), coordinates.destinationLongi()),
-                RidePrice.ridePrice(coordinates), LocalDateTime.now(), passenger, driver ));
+                RidePrice.ridePrice(coordinates), LocalDateTime.now(), passenger, driver));
 
         return ride;
     }

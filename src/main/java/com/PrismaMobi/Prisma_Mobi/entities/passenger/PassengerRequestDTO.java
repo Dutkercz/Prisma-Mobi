@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 
-public record PassengerDTO(
+public record PassengerRequestDTO(
         @NotBlank(message = "O campo nome não pode estar em branco.")
         String name,
 
@@ -16,15 +16,5 @@ public record PassengerDTO(
 
         @NotNull
         Gender gender
-
-        ){
-
-    public PassengerDTO(Passenger passenger) {
-        this(passenger.getName(), "*********-" + passenger.getCpf().substring(9,11), passenger.getGender());
-    }
-
-    public PassengerDTO listing(){
-        return new PassengerDTO(name,"*********-"+cpf.substring(9,11), gender);
-    }
-
+) {
 }

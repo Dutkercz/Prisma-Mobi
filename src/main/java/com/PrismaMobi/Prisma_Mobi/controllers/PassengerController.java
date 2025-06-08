@@ -1,14 +1,9 @@
 package com.PrismaMobi.Prisma_Mobi.controllers;
 
-import com.PrismaMobi.Prisma_Mobi.entities.UpdatePassengerDTO;
-import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
-import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerDTO;
-import com.PrismaMobi.Prisma_Mobi.repositories.UsersRepository;
+import com.PrismaMobi.Prisma_Mobi.entities.passenger.*;
 import com.PrismaMobi.Prisma_Mobi.services.PassengerService;
-import com.PrismaMobi.Prisma_Mobi.services.TokenService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -19,55 +14,56 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/passenger")
+@RequestMapping("/passengers")
 @SecurityRequirement(name = "bearer-key")
 public class PassengerController {
-    @Autowired
-    private PassengerService passengerService;
-    @Autowired
-    private TokenService tokenService;
-    @Autowired
-    private UsersRepository usersRepository;
 
-    @PostMapping("/register")
-    public ResponseEntity<PassengerDTO> passengerRegister(@RequestBody @Valid PassengerDTO passengerDTO,
-                                                          UriComponentsBuilder builder) {
+    private final PassengerService passengerService;
+
+    public PassengerController(PassengerService passengerService) {
+        this.passengerService = passengerService;
+    }
+
+    @PostMapping
+    public ResponseEntity<PassengerResponseDTO> passengerRegister(@RequestBody @Valid PassengerRequestDTO passengerRequestDTO,
+                                                                  UriComponentsBuilder builder) {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        Passenger passenger = passengerService.save(passengerDTO, login);
-        URI uri = builder.path("/api/passenger/register/{id}").buildAndExpand(passenger.getId()).toUri();
-        return ResponseEntity.created(uri).body(passengerDTO.listing());
+        Passenger passenger = passengerService.save(passengerRequestDTO, login);
+        URI uri = builder.path("/passengers/register/{id}").buildAndExpand(passenger.getId()).toUri();
+        return ResponseEntity.created(uri).body(new PassengerResponseDTO(passenger));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PassengerDTO> findById(@PathVariable Long id) {
-        PassengerDTO passenger = passengerService.findById(id);
-        return ResponseEntity.ok().body(passenger.listing());
+    public ResponseEntity<PassengerResponseDTO> findById(@PathVariable Long id) {
+        Passenger passenger = passengerService.findById(id);
+        return ResponseEntity.ok().body(new PassengerResponseDTO(passenger));
     }
 
     @GetMapping("/all")
-    public Page<PassengerDTO> findAll(Pageable pageable) {
-        return passengerService.findAll(pageable);
+    public ResponseEntity<Page<PassengerResponseDTO>> findAll(Pageable pageable) {
+        Page<PassengerResponseDTO> passengerDTOS = passengerService.findAll(pageable).map(PassengerResponseDTO::new);
+        return ResponseEntity.ok().body(passengerDTOS);
     }
 
     @GetMapping("/details")
-    public ResponseEntity<Passenger> details(){
+    public ResponseEntity<PassengerDetailsDTO> details() {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         Passenger passenger = passengerService.details(login);
-        return ResponseEntity.ok().body(passenger);
+        return ResponseEntity.ok().body(new PassengerDetailsDTO(passenger));
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> updatePassenger(@RequestBody @Valid UpdatePassengerDTO update){
-
+    @PutMapping
+    public ResponseEntity<PassengerResponseDTO> updatePassenger(@RequestBody @Valid PassengerUpdateDTO update) {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         Passenger passenger = passengerService.updatePassengerName(update.name(), login);
-        return ResponseEntity.ok(new PassengerDTO(passenger).listing());
+        return ResponseEntity.ok(new PassengerResponseDTO(passenger));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<PassengerDTO> deletePassenger(){
+    @DeleteMapping
+    public ResponseEntity<?> deletePassenger() {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok(passengerService.deleteLoggedPassenger(login));
+        passengerService.deleteLoggedPassenger(login);
+        return ResponseEntity.noContent().build();
     }
 
 }

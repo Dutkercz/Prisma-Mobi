@@ -18,7 +18,7 @@ public class TokenService {
     @Value("${alg.password}")
     private String secret;
 
-    public String createToken(Users users){
+    public String createToken(Users users) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
@@ -27,13 +27,13 @@ public class TokenService {
                     .withSubject(users.getLogin())
                     .withClaim("id", users.getId())
                     .sign(algorithm);
-        }catch (JWTCreationException exception){
+        } catch (JWTCreationException exception) {
             throw new RuntimeException("Error! JWT Token are not created");
         }
     }
 
-    public String getSubject (String tokenJWT){
-        try{
+    public String getSubject(String tokenJWT) {
+        try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
                     .withIssuer("Prisma-mobi-api")

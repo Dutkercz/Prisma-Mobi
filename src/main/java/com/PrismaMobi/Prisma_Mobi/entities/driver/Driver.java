@@ -1,8 +1,8 @@
 package com.PrismaMobi.Prisma_Mobi.entities.driver;
 
+import com.PrismaMobi.Prisma_Mobi.entities.enums.Gender;
 import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import com.PrismaMobi.Prisma_Mobi.entities.vehicle.Vehicle;
-import com.PrismaMobi.Prisma_Mobi.entities.enums.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -37,5 +37,14 @@ public class Driver {
 
     public void setInactive() {
         this.active = false;
+    }
+
+    public void update(DriverUpdateDTO updateDTO) {
+        if (!updateDTO.name().isBlank()) {
+            this.name = updateDTO.name();
+        }
+        if (updateDTO.vehicleDTO() != null) {
+            this.vehicle = new Vehicle(updateDTO.vehicleDTO());
+        }
     }
 }

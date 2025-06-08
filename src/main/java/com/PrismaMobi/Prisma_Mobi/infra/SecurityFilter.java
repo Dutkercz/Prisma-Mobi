@@ -30,7 +30,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         System.out.println("FILTRO DE SEGURANÇA");
         String tokenJWT = recuperarToken(request);
 
-        if (tokenJWT != null){
+        if (tokenJWT != null) {
             String subject = tokenService.getSubject(tokenJWT);
             Users users = usersRepository.findByLogin(subject);
             UsernamePasswordAuthenticationToken authenticationToken =
@@ -44,7 +44,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private String recuperarToken(HttpServletRequest request) {
         String cleanToken = request.getHeader("Authorization");
-        if(cleanToken != null){
+        if (cleanToken != null) {
             return cleanToken.replace("Bearer ", "");
         }
         return null;

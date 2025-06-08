@@ -17,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/ride")
+@RequestMapping("/ride")
 @SecurityRequirement(name = "bearer-key")
 public class RideController {
 
@@ -25,7 +25,7 @@ public class RideController {
     private RideService rideService;
 
     @PostMapping()
-    public ResponseEntity<?> ride(@RequestBody RideCoordinates rideCoordinates, UriComponentsBuilder builder){
+    public ResponseEntity<?> ride(@RequestBody RideCoordinates rideCoordinates, UriComponentsBuilder builder) {
 
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         Ride ride = rideService.saveRide(rideCoordinates, login);
