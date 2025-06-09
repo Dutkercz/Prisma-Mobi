@@ -1,6 +1,7 @@
 package com.PrismaMobi.Prisma_Mobi.controllers;
 
 import com.PrismaMobi.Prisma_Mobi.entities.Ride;
+import com.PrismaMobi.Prisma_Mobi.entities.RideAcceptedResponse;
 import com.PrismaMobi.Prisma_Mobi.entities.RideCoordinates;
 import com.PrismaMobi.Prisma_Mobi.entities.RideDetails;
 import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
@@ -34,9 +35,10 @@ public class RideController {
         return ResponseEntity.created(uri).body(new RideDetails(ride));
     }
 
-    @PostMapping("/{id}/aceitar")
+    @PostMapping("/{id}/accept")
     public ResponseEntity<?> rideAccept(@PathVariable Long id){
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         Ride ride = rideService.acceptRide(login, id);
+        return ResponseEntity.ok().body(new RideAcceptedResponse(ride));
     }
 }
