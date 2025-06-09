@@ -3,6 +3,7 @@ package com.PrismaMobi.Prisma_Mobi.entities;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Destination;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Origin;
 import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
+import com.PrismaMobi.Prisma_Mobi.entities.enums.RideStatus;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,9 +33,18 @@ public class Ride {
 
     private LocalDateTime rideDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Passenger passenger;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @Setter
     private Driver driver;
+
+    @Enumerated(EnumType.STRING)
+    RideStatus rideStatus;
+
+    public void acceptBy(Driver driver) {
+        this.driver = driver;
+        this.rideStatus = RideStatus.ACCEPTED;
+    }
 }

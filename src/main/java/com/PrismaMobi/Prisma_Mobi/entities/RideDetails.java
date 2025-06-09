@@ -2,11 +2,12 @@ package com.PrismaMobi.Prisma_Mobi.entities;
 
 import java.time.LocalDateTime;
 
-public record RideDetails(String passenger, String driver, LocalDateTime date, Double totalPrice) {
+public record RideDetails(Long passengerId, LocalDateTime date, Double totalPrice, Double[] origin, Double[] destination) {
     public RideDetails(Ride ride) {
-        this(ride.getPassenger().getName(),
-                ride.getDriver().getName(),
+        this(ride.getPassenger().getId(),
                 ride.getRideDate(),
-                ride.getTotalPrice());
+                ride.getTotalPrice(),
+                new Double[]{ride.getOrigin().getLatitudeOrigin(), ride.getOrigin().getLongitudeOrigin()},
+                new Double[]{ride.getDestination().getLatitudeDestination(), ride.getDestination().getLongitudeDestination()});
     }
 }

@@ -6,7 +6,8 @@ create table ride(
     longitude_origin double not null,
     ride_date timestamp not null,
     passenger_id bigint not null,
-    driver_id bigint not null,
+    driver_id bigint,
+    ride_status varchar(12) not null,
 
     primary key (id),
 
