@@ -7,14 +7,14 @@ import java.time.LocalDateTime;
 
 public record RideAcceptedResponse(Long passengerId,
                                    Long rideId,
-                                   LocalDateTime date,
+                                   LocalDateTime rideAcceptDate,
                                    Double totalPrice,
                                    Double[] origin, Double[] destination,
                                    RideStatus status,
                                    String driver) {
 
     public RideAcceptedResponse(Ride ride) {
-        this(ride.getPassenger().getId(), ride.getId(), ride.getRideDate(), ride.getTotalPrice(),
+        this(ride.getPassenger().getId(), ride.getId(), ride.getRideAcceptDate(), ride.getTotalPrice(),
                 new Double[]{ride.getOrigin().getLatitudeOrigin(), ride.getOrigin().getLongitudeOrigin()},
                 new Double[]{ride.getDestination().getLatitudeDestination(), ride.getDestination().getLongitudeDestination()},
                 ride.getRideStatus(), ride.getDriver().getName());

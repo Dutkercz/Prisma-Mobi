@@ -31,7 +31,10 @@ public class Ride {
     @Setter
     private Double totalPrice;
 
-    private LocalDateTime rideDate;
+    private LocalDateTime rideRequestDate; // data/hora em que pedido da "corrida" é gerado
+    private LocalDateTime rideAcceptDate; // data/hora em que o motorista aceita a "corrida"
+    private LocalDateTime rideStartDate; // data/hora em que o passageiro embarca no carro
+    private LocalDateTime rideFinishDate; // data/hora em que chega no destino/ou cancela a "corrida"
 
     @ManyToOne
     private Passenger passenger;
@@ -46,5 +49,15 @@ public class Ride {
     public void acceptBy(Driver driver) {
         this.driver = driver;
         this.rideStatus = RideStatus.ACCEPTED;
+    }
+
+    public void startBy(Driver driver) {
+        this.rideStatus = RideStatus.IN_PROGRESS;
+        this.rideStartDate = LocalDateTime.now();
+    }
+
+    public void finishBy(Driver driver) {
+        this.rideStatus = RideStatus.FINISHED;
+        this.rideFinishDate = LocalDateTime.now();
     }
 }

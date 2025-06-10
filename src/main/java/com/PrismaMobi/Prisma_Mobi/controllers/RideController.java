@@ -1,13 +1,8 @@
 package com.PrismaMobi.Prisma_Mobi.controllers;
 
-import com.PrismaMobi.Prisma_Mobi.entities.Ride;
-import com.PrismaMobi.Prisma_Mobi.entities.RideAcceptedResponse;
-import com.PrismaMobi.Prisma_Mobi.entities.RideCoordinates;
-import com.PrismaMobi.Prisma_Mobi.entities.RideDetails;
-import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
+import com.PrismaMobi.Prisma_Mobi.entities.*;
 import com.PrismaMobi.Prisma_Mobi.services.RideService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +22,7 @@ public class RideController {
     }
 
     @PostMapping
-    public ResponseEntity<?> newRide(@RequestBody RideCoordinates rideCoordinates,
+    public ResponseEntity<RideDetails> newRide(@RequestBody RideCoordinates rideCoordinates,
                                   UriComponentsBuilder builder) {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         Ride ride = rideService.saveNewRide(rideCoordinates, login);
@@ -36,9 +31,30 @@ public class RideController {
     }
 
     @PostMapping("/{id}/accept")
-    public ResponseEntity<?> rideAccept(@PathVariable Long id){
+    public ResponseEntity<RideAcceptedResponse> rideAccept(@PathVariable Long id){
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         Ride ride = rideService.acceptRide(login, id);
         return ResponseEntity.ok().body(new RideAcceptedResponse(ride));
+    }
+
+    @PostMapping("/{id}/start")
+    public ResponseEntity<RideStartDTO> rideStart(@PathVariable Long id){
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        Ride ride = rideService.startRide(login, id);
+        return ResponseEntity.ok().body(new RideStartDTO(ride));
+    }
+
+    @PostMapping("/{id}/finish")
+    public ResponseEntity<RideFinishDTO> rideFinish(@PathVariable Long id){
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        Ride ride = rideService.finishRide(login, id);
+        return ResponseEntity.ok().body(new RideFinishDTO(ride));
+    }
+
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<?> rideCancel(@PathVariable Long id){
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        Ride ride = rideService.cancelRide(login, id);
+        return ResponseEntity.ok().body(new RideCacelDTO(ride));
     }
 }
