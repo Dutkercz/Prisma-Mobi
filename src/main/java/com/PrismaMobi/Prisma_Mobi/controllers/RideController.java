@@ -25,36 +25,36 @@ public class RideController {
     public ResponseEntity<RideDetails> newRide(@RequestBody RideCoordinates rideCoordinates,
                                   UriComponentsBuilder builder) {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        Ride ride = rideService.saveNewRide(rideCoordinates, login);
-        URI uri = builder.path("/ride/{id}").buildAndExpand(ride.getId()).toUri();
-        return ResponseEntity.created(uri).body(new RideDetails(ride));
+        RideDetails rideDetails = rideService.saveNewRide(rideCoordinates, login);
+        URI uri = builder.path("/ride/{id}").buildAndExpand(rideDetails.rideId()).toUri();
+        return ResponseEntity.created(uri).body(rideDetails);
     }
 
     @PostMapping("/{id}/accept")
     public ResponseEntity<RideAcceptedResponse> rideAccept(@PathVariable Long id){
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        Ride ride = rideService.acceptRide(login, id);
-        return ResponseEntity.ok().body(new RideAcceptedResponse(ride));
+        RideAcceptedResponse rideAcceptedResponse = rideService.acceptRide(login, id);
+        return ResponseEntity.ok().body(rideAcceptedResponse);
     }
 
     @PostMapping("/{id}/start")
     public ResponseEntity<RideStartDTO> rideStart(@PathVariable Long id){
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        Ride ride = rideService.startRide(login, id);
-        return ResponseEntity.ok().body(new RideStartDTO(ride));
+        RideStartDTO rideStartDTO = rideService.startRide(login, id);
+        return ResponseEntity.ok().body(rideStartDTO);
     }
 
     @PostMapping("/{id}/finish")
     public ResponseEntity<RideFinishDTO> rideFinish(@PathVariable Long id){
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        Ride ride = rideService.finishRide(login, id);
-        return ResponseEntity.ok().body(new RideFinishDTO(ride));
+        RideFinishDTO rideFinishDTO = rideService.finishRide(login, id);
+        return ResponseEntity.ok().body(rideFinishDTO);
     }
 
     @PostMapping("/{id}/cancel")
-    public ResponseEntity<?> rideCancel(@PathVariable Long id){
+    public ResponseEntity<RideCancelDTO> rideCancel(@PathVariable Long id, @RequestBody String rideComment){
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        Ride ride = rideService.cancelRide(login, id);
-        return ResponseEntity.ok().body(new RideCacelDTO(ride));
+        RideCancelDTO rideCancelDTO = rideService.cancelRide(login, id, rideComment);
+        return ResponseEntity.ok().body(rideCancelDTO);
     }
 }

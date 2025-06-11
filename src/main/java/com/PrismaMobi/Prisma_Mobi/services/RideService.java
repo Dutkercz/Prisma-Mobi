@@ -1,7 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.services;
 
-import com.PrismaMobi.Prisma_Mobi.entities.Ride;
-import com.PrismaMobi.Prisma_Mobi.entities.RideCoordinates;
+import com.PrismaMobi.Prisma_Mobi.entities.*;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Destination;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Origin;
 import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
@@ -28,31 +27,30 @@ public class RideService {
     private final RideRepository rideRepository;
     private final UsersRepository usersRepository;
     private final PassengerRepository passengerRepository;
-    private final DriverRepository driverRepository;
     private final DriverValidationService driverValidationService;
 
     public RideService(RideRepository rideRepository, UsersRepository usersRepository, PassengerRepository passengerRepository, DriverRepository driverRepository, DriverValidationService driverValidationService) {
         this.rideRepository = rideRepository;
         this.usersRepository = usersRepository;
         this.passengerRepository = passengerRepository;
-        this.driverRepository = driverRepository;
         this.driverValidationService = driverValidationService;
     }
 
     @Transactional
-    public Ride saveNewRide(RideCoordinates coordinates, String login) {
-        Users users = usersRepository.findByLogin(login);
+    public RideDetails saveNewRide(RideCoordinates coordinates, String login) {
+        Users user = usersRepository.findByLogin(login);
 
-        Passenger passenger = passengerRepository.findPassengerByUsersId(users.getId())
+        Passenger passenger = passengerRepository.findPassengerByUsersId(user.getId())
                 .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
 
-        if (passenger.getUsers().getRoles() == Roles.ROLE_PASSENGER){
-            return rideRepository.save(new Ride(null,
+        if (user.getRoles() == Roles.ROLE_PASSENGER){
+            Ride ride = rideRepository.save(new Ride(null,
                     new Origin(coordinates.originLat(), coordinates.originLongi()),
                     new Destination(coordinates.destinationLat(), coordinates.destinationLongi()),
                     RidePrice.ridePrice(coordinates),
-                    LocalDateTime.now(),null, null, null,
-                    passenger, null, RideStatus.REQUESTED));
+                    LocalDateTime.now(),null, null, null, null,
+                    passenger, null, RideStatus.REQUESTED, null));
+            return new RideDetails(ride);
         }
         throw new RuntimeException("Usuário não tem permissões para esta ação");
 
@@ -60,7 +58,7 @@ public class RideService {
     }
 
     @Transactional
-    public Ride acceptRide(String login, Long id) {
+    public RideAcceptedResponse acceptRide(String login, Long id) {
         Ride ride = rideRepository.findByIdAndRideStatus(id, RideStatus.REQUESTED)
                 .orElseThrow(() -> new EntityNotFoundException("Esta viagem não está disponível."));
 
@@ -69,12 +67,12 @@ public class RideService {
         if (!ride.getDriver().equals(driver)){
             throw new AccessDeniedException("Usuário não tem permissões para esta ação");
         }
-        ride.startBy(driver);
-        return ride;
+        ride.acceptBy(driver);
+        return new RideAcceptedResponse(ride);
     }
 
     @Transactional
-    public Ride startRide(String login, Long id) {
+    public RideStartDTO startRide(String login, Long id) {
         Ride ride = rideRepository.findByIdAndRideStatus(id, RideStatus.ACCEPTED)
                 .orElseThrow(() -> new EntityNotFoundException("Esta viagem não está disponível."));
 
@@ -83,12 +81,12 @@ public class RideService {
         if (!ride.getDriver().equals(driver)){
             throw new AccessDeniedException("Usuário não tem permissões para esta ação");
         }
-        ride.startBy(driver);
-        return ride;
+        ride.startRide();
+        return new RideStartDTO(ride);
     }
 
     @Transactional
-    public Ride finishRide(String login, Long id) {
+    public RideFinishDTO finishRide(String login, Long id) {
         Ride ride = rideRepository.findByIdAndRideStatus(id, RideStatus.IN_PROGRESS)
                 .orElseThrow(() -> new EntityNotFoundException("Esta viagem não está disponível."));
 
@@ -97,7 +95,24 @@ public class RideService {
         if (!ride.getDriver().equals(driver)){
             throw new AccessDeniedException("Usuário não tem permissões para esta ação");
         }
-        ride.finishBy(driver);
-        return ride;
+        ride.finishRide();
+        return new RideFinishDTO(ride);
+    }
+
+    @Transactional
+    public RideCancelDTO cancelRide(String login, Long id, String comment) {
+        Ride ride = rideRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Esta viagem não está disponível."));
+
+        if (ride.getRideStatus() != RideStatus.REQUESTED && ride.getRideStatus() != RideStatus.ACCEPTED){
+            throw new RuntimeException("Esta viagem não atende aos requisitos para cancelamento.");
+        }
+
+        Users user = usersRepository.findByLogin(login);
+        if(!user.equals(ride.getPassenger().getUsers()) && !user.equals(ride.getDriver().getUsers())){
+            throw new AccessDeniedException("Você não tem permissão para cancelar esta viagem.");
+        }
+        ride.canceledRide(comment, user);
+        return new RideCancelDTO(ride, user);
     }
 }
