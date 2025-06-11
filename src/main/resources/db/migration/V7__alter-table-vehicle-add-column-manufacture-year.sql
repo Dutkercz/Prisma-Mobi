@@ -1,1 +1,0 @@
-alter table vehicle add column manufacture_year varchar(7);

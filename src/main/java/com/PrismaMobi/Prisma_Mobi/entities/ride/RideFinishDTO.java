@@ -9,10 +9,10 @@ public record RideFinishDTO(Long id, String driverName, String passengerName,
 
     public RideFinishDTO(Ride ride) {
         this(ride.getId(),
-            ride.getDriver().getName(),
-            ride.getPassenger().getName(),
-            ride.getRideFinishDate(),
-            ride.getTotalPrice(),
-            ride.getRideStatus());
+                ride.getDriver().getName(),
+                ride.getPassenger().getName(),
+                ride.getRideFinishDate(),
+                ride.getTotalPrice(),
+                ride.getRideStatus());
     }
 }

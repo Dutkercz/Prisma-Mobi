@@ -33,7 +33,7 @@ public class DriverService {
     }
 
     public DriverDTO findByPlate(String plate) {
-        Driver driver = driverRepository.findDriverByVehiclePlate(plate.toUpperCase())
+        Driver driver = driverRepository.findDriverByVehicleCarPlate(plate.toUpperCase())
                 .orElseThrow(() -> new RuntimeException("Driver not found"));
         return new DriverDTO(driver);
     }

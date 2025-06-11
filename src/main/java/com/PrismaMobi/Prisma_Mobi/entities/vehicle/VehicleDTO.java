@@ -18,6 +18,6 @@ public record VehicleDTO(
         String plate) {
 
     public VehicleDTO(Vehicle vehicle) {
-        this(vehicle.getBrand(), vehicle.getModel(), vehicle.getYear(), vehicle.getPlate());
+        this(vehicle.getCarBrand(), vehicle.getCarModel(), vehicle.getYear(), vehicle.getCarPlate());
     }
 }

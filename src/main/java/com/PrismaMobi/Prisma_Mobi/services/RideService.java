@@ -64,9 +64,6 @@ public class RideService {
 
         Driver driver = driverValidationService.getValidateDriver(login);
 
-        if (!ride.getDriver().equals(driver)){
-            throw new AccessDeniedException("Usuário não tem permissões para esta ação");
-        }
         ride.acceptBy(driver);
         return new RideAcceptedResponse(ride);
     }
@@ -109,9 +106,14 @@ public class RideService {
         }
 
         Users user = usersRepository.findByLogin(login);
-        if(!user.equals(ride.getPassenger().getUsers()) && !user.equals(ride.getDriver().getUsers())){
+
+        Users motorista = ride.getDriver() != null ? ride.getDriver().getUsers() : null;
+        Users passageiro = ride.getPassenger() != null ? ride.getPassenger().getUsers() : null;
+
+        if(user != passageiro && user != motorista) {
             throw new AccessDeniedException("Você não tem permissão para cancelar esta viagem.");
         }
+
         ride.canceledRide(comment, user);
         return new RideCancelDTO(ride, user);
     }

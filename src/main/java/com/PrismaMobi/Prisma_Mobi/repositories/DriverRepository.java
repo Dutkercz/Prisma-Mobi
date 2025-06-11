@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface DriverRepository extends JpaRepository<Driver, Long> {
-    Optional<Driver> findDriverByVehiclePlate(String plate);
+    Optional<Driver> findDriverByVehicleCarPlate(String plate);
 
     @Query(value = """
             SELECT * FROM driver x

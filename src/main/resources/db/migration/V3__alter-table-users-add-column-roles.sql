@@ -1,1 +1,0 @@
-alter table users add roles varchar(100) not null;
