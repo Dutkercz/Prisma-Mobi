@@ -1,6 +1,5 @@
-package com.PrismaMobi.Prisma_Mobi.entities;
+package com.PrismaMobi.Prisma_Mobi.entities.ride;
 
-import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.RideStatus;
 
 import java.time.LocalDateTime;

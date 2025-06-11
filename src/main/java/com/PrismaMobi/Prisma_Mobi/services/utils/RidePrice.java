@@ -1,6 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.services.utils;
 
-import com.PrismaMobi.Prisma_Mobi.entities.RideCoordinates;
+import com.PrismaMobi.Prisma_Mobi.entities.ride.RideCoordinates;
 
 public class RidePrice {
 

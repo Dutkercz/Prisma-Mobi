@@ -1,4 +1,4 @@
-package com.PrismaMobi.Prisma_Mobi.entities;
+package com.PrismaMobi.Prisma_Mobi.entities.ride;
 
 import com.PrismaMobi.Prisma_Mobi.entities.address.Destination;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Origin;

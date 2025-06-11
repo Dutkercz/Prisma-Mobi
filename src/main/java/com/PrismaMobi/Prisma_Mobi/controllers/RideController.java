@@ -1,6 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.controllers;
 
-import com.PrismaMobi.Prisma_Mobi.entities.*;
+import com.PrismaMobi.Prisma_Mobi.entities.ride.*;
 import com.PrismaMobi.Prisma_Mobi.services.RideService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class RideController {
 
     @PostMapping
     public ResponseEntity<RideDetails> newRide(@RequestBody RideCoordinates rideCoordinates,
-                                  UriComponentsBuilder builder) {
+                                               UriComponentsBuilder builder) {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         RideDetails rideDetails = rideService.saveNewRide(rideCoordinates, login);
         URI uri = builder.path("/ride/{id}").buildAndExpand(rideDetails.rideId()).toUri();

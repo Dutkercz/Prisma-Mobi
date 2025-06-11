@@ -1,4 +1,4 @@
-package com.PrismaMobi.Prisma_Mobi.entities;
+package com.PrismaMobi.Prisma_Mobi.entities.ride;
 
 import jakarta.validation.constraints.NotNull;
 

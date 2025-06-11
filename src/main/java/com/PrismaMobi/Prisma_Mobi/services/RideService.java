@@ -1,12 +1,12 @@
 package com.PrismaMobi.Prisma_Mobi.services;
 
-import com.PrismaMobi.Prisma_Mobi.entities.*;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Destination;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Origin;
 import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.RideStatus;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
+import com.PrismaMobi.Prisma_Mobi.entities.ride.*;
 import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import com.PrismaMobi.Prisma_Mobi.repositories.DriverRepository;
 import com.PrismaMobi.Prisma_Mobi.repositories.PassengerRepository;
