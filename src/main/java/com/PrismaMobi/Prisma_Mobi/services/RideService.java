@@ -115,6 +115,6 @@ public class RideService {
         }
 
         ride.canceledRide(comment, user);
-        return new RideCancelDTO(ride, user);
+        return new RideCancelDTO(ride);
     }
 }
