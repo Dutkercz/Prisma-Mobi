@@ -3,6 +3,7 @@ package com.PrismaMobi.Prisma_Mobi.services;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Destination;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Origin;
 import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
+import com.PrismaMobi.Prisma_Mobi.entities.driver.DriverRidesDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.RideStatus;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
@@ -138,5 +139,16 @@ public class RideService {
 
         return rideRepository.findAllByPassengerId(passenger.getId(), pageable)
                 .map(PassengerRidesDTO::new);
+    }
+
+    /**
+     * Busca todas a Rides de um Driver, tambem com suporte a paginação
+     * @param login usuário autenticado
+     * @param pageable suporte a paginação
+     * @return retorna o Objeto já convertido em DTO com as informações necessárias
+     */
+    public Page<DriverRidesDTO> findALlDriverRides(String login, Pageable pageable) {
+        Driver driver = driverValidationService.getValidateDriver(login);
+        return rideRepository.findAllByDriverId(driver.getId(), pageable).map(DriverRidesDTO::new);
     }
 }

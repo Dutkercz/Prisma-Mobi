@@ -1,5 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.controllers;
 
+import com.PrismaMobi.Prisma_Mobi.entities.driver.DriverRidesDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerRidesDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.ride.*;
 import com.PrismaMobi.Prisma_Mobi.services.RideService;
@@ -65,6 +66,13 @@ public class RideController {
     public ResponseEntity<Page<PassengerRidesDTO>> getPassengerRides(Pageable pageable){
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         Page<PassengerRidesDTO> ridesDTOS = rideService.findAllPassengerRides(login, pageable);
+        return ResponseEntity.ok().body(ridesDTOS);
+    }
+
+    @GetMapping("/driver")
+    public ResponseEntity<Page<DriverRidesDTO>> gerDriverRides(Pageable pageable){
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        Page<DriverRidesDTO> ridesDTOS = rideService.findALlDriverRides(login, pageable);
         return ResponseEntity.ok().body(ridesDTOS);
     }
 }

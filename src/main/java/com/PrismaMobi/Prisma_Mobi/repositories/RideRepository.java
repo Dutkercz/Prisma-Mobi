@@ -1,5 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.repositories;
 
+import aj.org.objectweb.asm.commons.Remapper;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
 import com.PrismaMobi.Prisma_Mobi.entities.ride.Ride;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.RideStatus;
@@ -14,4 +15,6 @@ public interface RideRepository extends JpaRepository<Ride, Long> {
     Optional<Ride> findByIdAndRideStatus(Long id, RideStatus rideStatus);
 
     Page<Ride> findAllByPassengerId(Long id, Pageable pageable);
+
+    Page<Ride> findAllByDriverId(Long id, Pageable pageable);
 }
