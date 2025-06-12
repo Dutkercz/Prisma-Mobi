@@ -6,6 +6,7 @@ import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.RideStatus;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
+import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerRidesDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.ride.*;
 import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import com.PrismaMobi.Prisma_Mobi.repositories.DriverRepository;
@@ -15,6 +16,8 @@ import com.PrismaMobi.Prisma_Mobi.repositories.UsersRepository;
 import com.PrismaMobi.Prisma_Mobi.services.utils.RidePrice;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +44,7 @@ public class RideService {
         Users user = usersRepository.findByLogin(login);
 
         Passenger passenger = passengerRepository.findPassengerByUsersId(user.getId())
-                .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Passageiro não encontrado"));
 
         if (user.getRoles() == Roles.ROLE_PASSENGER){
             Ride ride = rideRepository.save(new Ride(null,
@@ -116,5 +119,24 @@ public class RideService {
 
         ride.canceledRide(comment, user);
         return new RideCancelDTO(ride);
+    }
+
+    /**
+     * Busca todas as Rides de um passageiro autenticado, separando por páginas com o Pageable
+     *
+     * @param login usuário autenticado
+     * @param pageable suporte a paginação
+     * @return retona o Objeto já convertido em DTO contendo informações necessárias
+     */
+    public Page<PassengerRidesDTO> findAllPassengerRides(String login, Pageable pageable) {
+        Users user = usersRepository.findByLogin(login);
+        if (user.getRoles() != Roles.ROLE_PASSENGER){
+            throw new AccessDeniedException("Usuário não tem permissões para esta ação");
+        }
+        Passenger passenger = passengerRepository.findPassengerByUsersId(user.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Passageiro não encontrado"));
+
+        return rideRepository.findAllByPassengerId(passenger.getId(), pageable)
+                .map(PassengerRidesDTO::new);
     }
 }
