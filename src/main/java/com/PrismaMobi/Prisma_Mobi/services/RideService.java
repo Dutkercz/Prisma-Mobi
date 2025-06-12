@@ -3,6 +3,7 @@ package com.PrismaMobi.Prisma_Mobi.services;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Destination;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Origin;
 import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
+import com.PrismaMobi.Prisma_Mobi.entities.driver.DriverMonthlyReport;
 import com.PrismaMobi.Prisma_Mobi.entities.driver.DriverRidesDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.RideStatus;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
@@ -22,7 +23,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class RideService {
@@ -150,5 +153,21 @@ public class RideService {
     public Page<DriverRidesDTO> findALlDriverRides(String login, Pageable pageable) {
         Driver driver = driverValidationService.getValidateDriver(login);
         return rideRepository.findAllByDriverId(driver.getId(), pageable).map(DriverRidesDTO::new);
+    }
+
+    public DriverMonthlyReport getDriverMonthlyReport(String login, int year, int month) {
+        Driver driver = driverValidationService.getValidateDriver(login);
+        LocalDateTime startDate = LocalDate.of(year, month, 1).atStartOfDay();
+        LocalDateTime endDate = startDate.plusMonths(1);
+        List<Ride> rides = rideRepository
+                .findAllByDriverIdAndRideStatusAndRideFinishDateBetween(driver.getId(),
+                                                                    RideStatus.FINISHED,
+                                                                    startDate, endDate);
+        double totalEarns = rides.stream()
+                .map(Ride::getTotalPrice)
+                .reduce(0.0, Double::sum);
+
+        return new DriverMonthlyReport(driver.getId(), driver.getName(), String.valueOf(month +" - "+ year), rides.size(), totalEarns);
+
     }
 }
