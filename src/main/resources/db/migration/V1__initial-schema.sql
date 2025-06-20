@@ -50,7 +50,7 @@
       driver_id BIGINT,
       ride_status VARCHAR(12) NOT NULL,
       total_price DOUBLE,
-      cancelled_by VARCHAR(12),
+      cancelled_by VARCHAR(30),
       ride_comment VARCHAR(100),
       PRIMARY KEY (id),
       CONSTRAINT fk_passenger FOREIGN KEY (passenger_id) REFERENCES passenger(id),

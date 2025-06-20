@@ -1,8 +1,17 @@
 package com.PrismaMobi.Prisma_Mobi.controllers;
 
+import com.PrismaMobi.Prisma_Mobi.entities.driver.DriverMonthlyReport;
+import com.PrismaMobi.Prisma_Mobi.entities.driver.DriverRidesDTO;
+import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerRidesDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.ride.*;
 import com.PrismaMobi.Prisma_Mobi.services.RideService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -56,5 +65,28 @@ public class RideController {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         RideCancelDTO rideCancelDTO = rideService.cancelRide(login, id, rideComment);
         return ResponseEntity.ok().body(rideCancelDTO);
+    }
+
+    @GetMapping("/passenger")
+    public ResponseEntity<Page<PassengerRidesDTO>> getPassengerRides(Pageable pageable){
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        Page<PassengerRidesDTO> ridesDTOS = rideService.findAllPassengerRides(login, pageable);
+        return ResponseEntity.ok().body(ridesDTOS);
+    }
+
+    @GetMapping("/driver")
+    public ResponseEntity<Page<DriverRidesDTO>> gerDriverRides(Pageable pageable){
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        Page<DriverRidesDTO> ridesDTOS = rideService.findALlDriverRides(login, pageable);
+        return ResponseEntity.ok().body(ridesDTOS);
+    }
+
+    @GetMapping("/driver/report")
+    public ResponseEntity<DriverMonthlyReport> getMonthlyDriverReport(@RequestParam @Min(2020) @Max(2050) int year,
+                                                        @RequestParam @Min(1) @Max(12) int month){
+
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        DriverMonthlyReport driverMonthlyReport = rideService.getDriverMonthlyReport(login, year, month);
+        return ResponseEntity.ok().body(driverMonthlyReport);
     }
 }

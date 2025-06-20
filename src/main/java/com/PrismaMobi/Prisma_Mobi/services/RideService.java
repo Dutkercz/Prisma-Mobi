@@ -3,9 +3,12 @@ package com.PrismaMobi.Prisma_Mobi.services;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Destination;
 import com.PrismaMobi.Prisma_Mobi.entities.address.Origin;
 import com.PrismaMobi.Prisma_Mobi.entities.driver.Driver;
+import com.PrismaMobi.Prisma_Mobi.entities.driver.DriverMonthlyReport;
+import com.PrismaMobi.Prisma_Mobi.entities.driver.DriverRidesDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.RideStatus;
 import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
 import com.PrismaMobi.Prisma_Mobi.entities.passenger.Passenger;
+import com.PrismaMobi.Prisma_Mobi.entities.passenger.PassengerRidesDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.ride.*;
 import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 import com.PrismaMobi.Prisma_Mobi.repositories.DriverRepository;
@@ -15,10 +18,14 @@ import com.PrismaMobi.Prisma_Mobi.repositories.UsersRepository;
 import com.PrismaMobi.Prisma_Mobi.services.utils.RidePrice;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class RideService {
@@ -41,7 +48,7 @@ public class RideService {
         Users user = usersRepository.findByLogin(login);
 
         Passenger passenger = passengerRepository.findPassengerByUsersId(user.getId())
-                .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Passageiro não encontrado"));
 
         if (user.getRoles() == Roles.ROLE_PASSENGER){
             Ride ride = rideRepository.save(new Ride(null,
@@ -115,6 +122,52 @@ public class RideService {
         }
 
         ride.canceledRide(comment, user);
-        return new RideCancelDTO(ride, user);
+        return new RideCancelDTO(ride);
+    }
+
+    /**
+     * Busca todas as Rides de um passageiro autenticado, separando por páginas com o Pageable
+     *
+     * @param login usuário autenticado
+     * @param pageable suporte a paginação
+     * @return retona o Objeto já convertido em DTO contendo informações necessárias
+     */
+    public Page<PassengerRidesDTO> findAllPassengerRides(String login, Pageable pageable) {
+        Users user = usersRepository.findByLogin(login);
+        if (user.getRoles() != Roles.ROLE_PASSENGER){
+            throw new AccessDeniedException("Usuário não tem permissões para esta ação");
+        }
+        Passenger passenger = passengerRepository.findPassengerByUsersId(user.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Passageiro não encontrado"));
+
+        return rideRepository.findAllByPassengerId(passenger.getId(), pageable)
+                .map(PassengerRidesDTO::new);
+    }
+
+    /**
+     * Busca todas a Rides de um Driver, tambem com suporte a paginação
+     * @param login usuário autenticado
+     * @param pageable suporte a paginação
+     * @return retorna o Objeto já convertido em DTO com as informações necessárias
+     */
+    public Page<DriverRidesDTO> findALlDriverRides(String login, Pageable pageable) {
+        Driver driver = driverValidationService.getValidateDriver(login);
+        return rideRepository.findAllByDriverId(driver.getId(), pageable).map(DriverRidesDTO::new);
+    }
+
+    public DriverMonthlyReport getDriverMonthlyReport(String login, int year, int month) {
+        Driver driver = driverValidationService.getValidateDriver(login);
+        LocalDateTime startDate = LocalDate.of(year, month, 1).atStartOfDay();
+        LocalDateTime endDate = startDate.plusMonths(1);
+        List<Ride> rides = rideRepository
+                .findAllByDriverIdAndRideStatusAndRideFinishDateBetween(driver.getId(),
+                                                                    RideStatus.FINISHED,
+                                                                    startDate, endDate);
+        double totalEarns = rides.stream()
+                .map(Ride::getTotalPrice)
+                .reduce(0.0, Double::sum);
+
+        return new DriverMonthlyReport(driver.getId(), driver.getName(), String.valueOf(month +" - "+ year), rides.size(), totalEarns);
+
     }
 }
