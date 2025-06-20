@@ -22,7 +22,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withExpiresAt(expiration())
+                    .withExpiresAt(createExpireTime())
                     .withIssuer("Prisma-mobi-api")
                     .withSubject(users.getLogin())
                     .withClaim("id", users.getId())
@@ -46,7 +46,7 @@ public class TokenService {
         }
     }
 
-    private Instant expiration() {
+    private Instant createExpireTime() {
         return LocalDateTime.now().plusHours(2L).toInstant(ZoneOffset.of("-03:00"));
     }
 }

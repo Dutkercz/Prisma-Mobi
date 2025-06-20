@@ -33,7 +33,6 @@ public class PassengerService {
 
     public Passenger findById(Long id) {
         return passengerRepository.getReferenceById(id);
-
     }
 
     public Page<Passenger> findAll(Pageable pageable) {
@@ -42,27 +41,27 @@ public class PassengerService {
 
     @Transactional
     public void deleteLoggedPassenger(String login) {
-        Users users = usersRepository.findByLogin(login);
-        Passenger passenger = passengerRepository.findPassengerByUsersId(users.getId())
-                .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
+        Passenger passenger = passengerValidation(login);
         passenger.setInactive();
     }
 
     public Passenger details(String login) {
-        Users users = usersRepository.findByLogin(login);
-        return passengerRepository.findPassengerByUsersIdAndActiveTrue(users.getId())
-                .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
+        return passengerValidation(login);
     }
 
     @Transactional
     public Passenger updatePassengerName(String name, String login) {
-        Users users = usersRepository.findByLogin(login);
-        Passenger passenger = passengerRepository.findPassengerByUsersId(users.getId())
-                .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
+        Passenger passenger = passengerValidation(login);
         if (name != null) {
             passenger.setName(name.trim());
             return passenger;
         }
         return null;
+    }
+
+    public Passenger passengerValidation(String login){
+        Users users = usersRepository.findByLogin(login);
+        return passengerRepository.findPassengerByUsersIdAndActiveTrue(users.getId())
+                .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));
     }
 }
