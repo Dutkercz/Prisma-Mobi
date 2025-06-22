@@ -170,4 +170,25 @@ public class RideService {
         return new DriverMonthlyReport(driver.getId(), driver.getName(), String.valueOf(month +" - "+ year), rides.size(), totalEarns);
 
     }
+
+    public RideDetails getActiveRide(String login) {
+        Users user = usersRepository.findByLogin(login);
+
+        Passenger passenger = passengerRepository.findPassengerByUsersId(user.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Passageiro não encontrado"));
+
+        Ride ride = rideRepository.findByPassengerIdAndRideStatus(passenger.getId(), RideStatus.IN_PROGRESS);
+        if (ride != null) {
+                return new RideDetails(ride);
+        }
+
+        Driver driver = driverValidationService.getValidateDriver(login);
+        ride = rideRepository.findByDriverIdAndRideStatus(driver.getId(), RideStatus.IN_PROGRESS);
+            if (ride != null) {
+                return new RideDetails(ride);
+            }
+
+        throw new EntityNotFoundException("Nenhuma corrida em andamento para este usuário.");
+
+    }
 }

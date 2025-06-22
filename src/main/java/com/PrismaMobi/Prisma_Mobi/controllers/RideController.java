@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/ride")
@@ -88,5 +89,12 @@ public class RideController {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         DriverMonthlyReport driverMonthlyReport = rideService.getDriverMonthlyReport(login, year, month);
         return ResponseEntity.ok().body(driverMonthlyReport);
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<RideDetails> rideActiveDetails(){
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        RideDetails rideDetails = rideService.getActiveRide(login);
+        return ResponseEntity.ok().body(rideDetails);
     }
 }
