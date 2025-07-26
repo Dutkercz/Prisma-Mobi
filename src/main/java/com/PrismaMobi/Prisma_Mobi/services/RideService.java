@@ -50,12 +50,12 @@ public class RideService {
         Passenger passenger = passengerRepository.findPassengerByUsersId(user.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Passageiro não encontrado"));
 
-        if (user.getRoles() == Roles.ROLE_PASSENGER){
+        if (user.getRoles() == Roles.ROLE_PASSENGER) {
             Ride ride = rideRepository.save(new Ride(null,
                     new Origin(coordinates.originLat(), coordinates.originLongi()),
                     new Destination(coordinates.destinationLat(), coordinates.destinationLongi()),
                     RidePrice.ridePrice(coordinates),
-                    LocalDateTime.now(),null, null, null, null,
+                    LocalDateTime.now(), null, null, null, null,
                     passenger, null, RideStatus.REQUESTED, null));
             return new RideDetails(ride);
         }
@@ -82,7 +82,7 @@ public class RideService {
 
         Driver driver = driverValidationService.getValidateDriver(login);
 
-        if (!ride.getDriver().equals(driver)){
+        if (!ride.getDriver().equals(driver)) {
             throw new AccessDeniedException("Usuário não tem permissões para esta ação");
         }
         ride.startRide();
@@ -96,7 +96,7 @@ public class RideService {
 
         Driver driver = driverValidationService.getValidateDriver(login);
 
-        if (!ride.getDriver().equals(driver)){
+        if (!ride.getDriver().equals(driver)) {
             throw new AccessDeniedException("Usuário não tem permissões para esta ação");
         }
         ride.finishRide();
@@ -108,7 +108,7 @@ public class RideService {
         Ride ride = rideRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Esta viagem não está disponível."));
 
-        if (ride.getRideStatus() != RideStatus.REQUESTED && ride.getRideStatus() != RideStatus.ACCEPTED){
+        if (ride.getRideStatus() != RideStatus.REQUESTED && ride.getRideStatus() != RideStatus.ACCEPTED) {
             throw new RuntimeException("Esta viagem não atende aos requisitos para cancelamento.");
         }
 
@@ -117,7 +117,7 @@ public class RideService {
         Users motorista = ride.getDriver() != null ? ride.getDriver().getUsers() : null;
         Users passageiro = ride.getPassenger() != null ? ride.getPassenger().getUsers() : null;
 
-        if(user != passageiro && user != motorista) {
+        if (user != passageiro && user != motorista) {
             throw new AccessDeniedException("Você não tem permissão para cancelar esta viagem.");
         }
 
@@ -128,13 +128,13 @@ public class RideService {
     /**
      * Busca todas as Rides de um passageiro autenticado, separando por páginas com o Pageable
      *
-     * @param login usuário autenticado
+     * @param login    usuário autenticado
      * @param pageable suporte a paginação
      * @return retona o Objeto já convertido em DTO contendo informações necessárias
      */
     public Page<PassengerRidesDTO> findAllPassengerRides(String login, Pageable pageable) {
         Users user = usersRepository.findByLogin(login);
-        if (user.getRoles() != Roles.ROLE_PASSENGER){
+        if (user.getRoles() != Roles.ROLE_PASSENGER) {
             throw new AccessDeniedException("Usuário não tem permissões para esta ação");
         }
         Passenger passenger = passengerRepository.findPassengerByUsersId(user.getId())
@@ -146,7 +146,8 @@ public class RideService {
 
     /**
      * Busca todas a Rides de um Driver, tambem com suporte a paginação
-     * @param login usuário autenticado
+     *
+     * @param login    usuário autenticado
      * @param pageable suporte a paginação
      * @return retorna o Objeto já convertido em DTO com as informações necessárias
      */
@@ -161,20 +162,20 @@ public class RideService {
         LocalDateTime endDate = startDate.plusMonths(1);
         List<Ride> rides = rideRepository
                 .findAllByDriverIdAndRideStatusAndRideFinishDateBetween(driver.getId(),
-                                                                    RideStatus.FINISHED,
-                                                                    startDate, endDate);
+                        RideStatus.FINISHED,
+                        startDate, endDate);
         double totalEarns = rides.stream()
                 .map(Ride::getTotalPrice)
                 .reduce(0.0, Double::sum);
 
-        return new DriverMonthlyReport(driver.getId(), driver.getName(), String.valueOf(month +" - "+ year), rides.size(), totalEarns);
+        return new DriverMonthlyReport(driver.getId(), driver.getName(), month + " - " + year, rides.size(), totalEarns);
 
     }
 
     public RideDetails getActiveRide(String login) {
         Users user = usersRepository.findByLogin(login);
 
-        if(user.getRoles().equals(Roles.ROLE_PASSENGER)){
+        if (user.getRoles().equals(Roles.ROLE_PASSENGER)) {
             Passenger passenger = passengerRepository.findPassengerByUsersId(user.getId())
                     .orElseThrow(() -> new EntityNotFoundException("Passageiro não encontrado"));
             Ride ride = rideRepository.findByPassengerIdAndRideStatus(passenger.getId(), RideStatus.IN_PROGRESS);

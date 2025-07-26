@@ -56,7 +56,7 @@ public class DriverService {
         System.out.println(users.getUsername());
         Driver driver = driverRepository.findByUsersIdAndActive(users.getId(), true)
                 .orElseThrow(() -> new EntityNotFoundException("Driver not found."));
-        System.out.println("Driver nome atual: "+ driver.getName());
+        System.out.println("Driver nome atual: " + driver.getName());
         driver.update(updateDTO);
         return driver;
     }

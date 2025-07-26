@@ -27,16 +27,16 @@ public class Vehicle {
     }
 
     public void update(@Valid VehicleDTO vehicle) {
-        if(vehicle.brand() != null && !vehicle.brand().isBlank()){
+        if (vehicle.brand() != null && !vehicle.brand().isBlank()) {
             this.carBrand = vehicle.brand();
         }
-        if(vehicle.model() != null && !vehicle.model().isBlank()){
+        if (vehicle.model() != null && !vehicle.model().isBlank()) {
             this.carModel = vehicle.model();
         }
-        if(vehicle.year() != null && !vehicle.year().isBlank()){
+        if (vehicle.year() != null && !vehicle.year().isBlank()) {
             this.year = vehicle.year();
         }
-        if(vehicle.plate() != null && !vehicle.plate().isBlank()){
+        if (vehicle.plate() != null && !vehicle.plate().isBlank()) {
             this.carPlate = vehicle.plate().toUpperCase();
         }
     }

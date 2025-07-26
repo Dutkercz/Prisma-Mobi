@@ -26,7 +26,7 @@ public class UsersService implements UserDetailsService {
     public Users register(UsersDTO usersDTO) {
         String encryptedPassword = passwordEncoder.encode(usersDTO.password());
         return usersRepository.save
-                (new Users(null, usersDTO.login(), encryptedPassword, Roles.valueOf("ROLE_"+usersDTO.role().toUpperCase())));
+                (new Users(null, usersDTO.login(), encryptedPassword, Roles.valueOf("ROLE_" + usersDTO.role().toUpperCase())));
     }
 
     public Boolean authorizeLogin(String login, String password) {

@@ -74,10 +74,9 @@ public class Ride {
         this.rideFinishDate = LocalDateTime.now();
         this.rideComment = comment;
 
-        if (user.getRoles() == Roles.ROLE_PASSENGER){
+        if (user.getRoles() == Roles.ROLE_PASSENGER) {
             this.cancelledBy = CancelledBy.CANCELLED_BY_PASSENGER;
-        }
-        else{
+        } else {
             this.cancelledBy = CancelledBy.CANCELLED_BY_DRIVER;
         }
     }

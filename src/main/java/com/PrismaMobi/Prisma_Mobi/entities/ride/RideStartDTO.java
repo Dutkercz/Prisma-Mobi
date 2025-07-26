@@ -9,9 +9,9 @@ public record RideStartDTO(Long id, String driverName, String passengerName,
 
     public RideStartDTO(Ride ride) {
         this(ride.getId(),
-            ride.getDriver().getName(),
-            ride.getPassenger().getName(),
-            ride.getRideStartDate(),
-            ride.getRideStatus());
+                ride.getDriver().getName(),
+                ride.getPassenger().getName(),
+                ride.getRideStartDate(),
+                ride.getRideStatus());
     }
 }

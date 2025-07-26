@@ -6,7 +6,6 @@ import com.PrismaMobi.Prisma_Mobi.entities.driver.DriverRegisterDTO;
 import com.PrismaMobi.Prisma_Mobi.entities.driver.DriverUpdateDTO;
 import com.PrismaMobi.Prisma_Mobi.services.DriverService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;

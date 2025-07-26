@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class GenderDeserializer extends JsonDeserializer<Gender> {
     @Override
-    public Gender deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+    public Gender deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         String parser = jsonParser.getText();
         return Gender.fromString(parser.toUpperCase());
     }

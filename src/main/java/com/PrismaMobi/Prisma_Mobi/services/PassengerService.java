@@ -59,7 +59,7 @@ public class PassengerService {
         return null;
     }
 
-    public Passenger passengerValidation(String login){
+    public Passenger passengerValidation(String login) {
         Users users = usersRepository.findByLogin(login);
         return passengerRepository.findPassengerByUsersIdAndActiveTrue(users.getId())
                 .orElseThrow(() -> new RuntimeException("Passageiro não encontrado"));

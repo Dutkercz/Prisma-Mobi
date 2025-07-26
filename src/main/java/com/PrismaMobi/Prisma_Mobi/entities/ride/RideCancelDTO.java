@@ -1,8 +1,6 @@
 package com.PrismaMobi.Prisma_Mobi.entities.ride;
 
 import com.PrismaMobi.Prisma_Mobi.entities.enums.CancelledBy;
-import com.PrismaMobi.Prisma_Mobi.entities.enums.Roles;
-import com.PrismaMobi.Prisma_Mobi.entities.users.Users;
 
 import java.time.LocalDateTime;
 
@@ -12,10 +10,10 @@ public record RideCancelDTO(Long id, String passengerName,
 
     public RideCancelDTO(Ride ride) {
         this(ride.getId(),
-            ride.getPassenger().getName(),
-            ride.getDriver() != null ? ride.getDriver().getName() : "No Driver",
-            ride.getCancelledBy(),
-            ride.getRideFinishDate(),
-            ride.getRideComment());
+                ride.getPassenger().getName(),
+                ride.getDriver() != null ? ride.getDriver().getName() : "No Driver",
+                ride.getCancelledBy(),
+                ride.getRideFinishDate(),
+                ride.getRideComment());
     }
 }
